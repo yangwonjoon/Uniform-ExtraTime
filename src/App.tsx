@@ -11,7 +11,7 @@ const App = () => {
 
 
   return (
-    <div className="App container mx-auto my-0 w-1/2 h-screen bg-neutral-300">
+    <div className="App container mx-auto my-0 w-1/2 h-screen">
       <SellerSignUp></SellerSignUp>
     </div>
   );
