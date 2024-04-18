@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input"
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 
 export const SellerSignUp = () => {
@@ -10,13 +10,23 @@ export const SellerSignUp = () => {
         email: '',
         password: '',
         name: '',
-        nickname: ''
+        nickname: '',
+        isSeller: true
     });
 
     const signUp = async () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             console.log(userCredential);
+
+            const user_doc = await addDoc(collection(db, "users"), {
+                email: formData.email,
+                name: formData.name,
+                nickname: formData.nickname,
+                isSeller: formData.isSeller
+            });
+            console.log(user_doc)
+
         } catch (error) {
             console.error(error);
         }
