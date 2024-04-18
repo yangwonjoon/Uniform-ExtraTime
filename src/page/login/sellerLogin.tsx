@@ -2,9 +2,11 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export const SellerLogin = () => {
 
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -21,6 +23,7 @@ export const SellerLogin = () => {
                 formData.password
             );
             console.log(userCredential)
+            navigate('/')
         } catch (error) {
             console.error(error);
         }
@@ -49,7 +52,7 @@ export const SellerLogin = () => {
                             })
                         }} />
                     <div className="text-center pt-5">
-                        <button className="bg-main w-32 h-12 rounded-md text-white" onClick={login}>제출하기</button>
+                        <button className="bg-main w-32 h-12 rounded-md text-white" onClick={login}>로그인</button>
                     </div>
                 </div>
             </div>
