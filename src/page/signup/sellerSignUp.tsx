@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export const SellerSignUp = () => {
+
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -26,6 +29,7 @@ export const SellerSignUp = () => {
                 isSeller: formData.isSeller
             });
             console.log(user_doc)
+            navigate('/login')
 
         } catch (error) {
             console.error(error);
