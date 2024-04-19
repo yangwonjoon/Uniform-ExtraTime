@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 export const SellerSignUp = () => {
@@ -21,14 +21,16 @@ export const SellerSignUp = () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             console.log(userCredential);
+            const { uid } = userCredential.user;
 
-            const user_doc = await addDoc(collection(db, "users"), {
+            const userDocRef = doc(db, "users", uid);
+            await setDoc(userDocRef, {
                 email: formData.email,
                 name: formData.name,
                 nickname: formData.nickname,
                 isSeller: formData.isSeller
             });
-            console.log(user_doc)
+
             navigate('/login')
 
         } catch (error) {

@@ -22,6 +22,7 @@ export const Nav = () => {
         return () => sellerLogin();
     }, []);
 
+
     //nav onclick handler
     const clickHandle = (path: string) => {
         if (path === '/sell' && !isLoggedIn) {
