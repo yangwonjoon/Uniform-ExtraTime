@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
 export const Nav = () => {
@@ -20,7 +20,8 @@ export const Nav = () => {
         });
 
         return () => sellerLogin();
-    }, []);
+    }, [isLoggedIn]);
+
 
     //nav onclick handler
     const clickHandle = (path: string) => {
@@ -30,7 +31,6 @@ export const Nav = () => {
         }
         navigate(path)
     }
-    console.log(!isLoggedIn)
 
     return (
         <>

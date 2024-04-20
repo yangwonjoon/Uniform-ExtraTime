@@ -1,11 +1,10 @@
-import { Logo } from "../../component/logo";
-import { Nav } from "../../component/nav";
+import { Logo } from "../../components/common/logo";
+import { Nav } from "../../components/common/nav";
 
 export const Mypage = () => {
     return (
         <>
             <div>
-                <Logo></Logo>
                 <Nav></Nav>
                 mypage
             </div>
