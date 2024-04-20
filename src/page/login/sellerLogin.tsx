@@ -1,8 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth';
+
 
 interface IFormData {
     email: string,
@@ -35,6 +36,7 @@ export const SellerLogin = () => {
         }
 
         try {
+            await setPersistence(auth, browserSessionPersistence);
             const loginUser = await signInWithEmailAndPassword(
                 auth,
                 formData.email,

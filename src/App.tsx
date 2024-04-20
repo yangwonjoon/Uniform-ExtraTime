@@ -5,8 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "./page/main/home";
 import { Team } from "./page/main/team";
 import { Logo } from "./components/common/logo";
-import { Sell } from "./page/main/sell";
-import { Mypage } from "./page/main/mypage";
+import { Sell } from "./page/seller/sell";
+import { Mypage } from "./page/mypage/mypage";
 
 const App = () => {
 

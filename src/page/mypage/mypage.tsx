@@ -5,7 +5,6 @@ export const Mypage = () => {
     return (
         <>
             <div>
-
                 <Nav></Nav>
                 mypage
             </div>

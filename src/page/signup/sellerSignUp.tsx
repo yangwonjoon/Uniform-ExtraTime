@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input"
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setPersistence, createUserWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth';
 import { auth, db } from "../../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -68,6 +68,8 @@ export const SellerSignUp = () => {
                 nickname: formData.nickname,
                 isSeller: formData.isSeller
             });
+
+            await setPersistence(auth, browserSessionPersistence);
             console.log("dbUsers:", dbUsers)
             navigate('/')
 
