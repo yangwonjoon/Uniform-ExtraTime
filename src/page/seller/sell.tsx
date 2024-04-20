@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import { Nav } from "@/components/common/nav";
 import { storage } from "../../firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
+
+interface IFormData {
+    name: string,
+    price: string,
+    explain: string,
+    images: string[]
+}
 
 export const Sell = () => {
+
+    const [formData, setFormData] = useState<IFormData>({
+        name: '',
+        price: '',
+        explain: '',
+        images: []
+    })
 
     //이미지 url 저장
     const [showImages, setShowImages] = useState<string[]>([]);
     //파일 객체 저장
     const [imageFiles, setImageFiles] = useState<File[]>([]);
-
-    console.log(imageFiles)
 
     const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -47,14 +64,29 @@ export const Sell = () => {
         event.preventDefault();
 
         try {
+            const list: string[] = []
             for (let i = 0; i < imageFiles.length; i++) {
                 const file = imageFiles[i];
                 const storageRef = ref(storage, `products/${file.name}`);
                 await uploadBytes(storageRef, file);
+
+                const downloadUrl = await getDownloadURL(storageRef);
+                list.push(downloadUrl)
             }
+
+            //여기 문서 이름 뭐로할꺼 hello말고
+            const dbUsers = doc(db, "products", 'hello');
+            await setDoc(dbUsers, {
+                name: formData.name,
+                price: formData.price,
+                explain: formData.explain,
+                images: list
+            });
+
             console.log("이미지 업로드 성공");
             setShowImages([]);
             setImageFiles([]);
+
         } catch (error) {
             console.error("이미지 업로드 실패 ");
             setShowImages([]);
@@ -66,12 +98,40 @@ export const Sell = () => {
         <>
             <Nav />
             <form onSubmit={handleSubmit}>
-                <div>
-
-                    
-
-
-
+                <div className="pt-10 flex flex-col items-center min-h-screen">
+                    <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
+                        <Label htmlFor="name">상품명</Label>
+                        <Input type="text" id="name" placeholder="ex) 리버풀 18/19 시즌 홈킷" onChange={(e) => {
+                            {
+                                setFormData({
+                                    ...formData,
+                                    name: e.target.value
+                                })
+                            }
+                        }} />
+                    </div>
+                    <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
+                        <Label htmlFor="price">가격</Label>
+                        <Input type="text" id="price" placeholder="ex) 120000" onChange={(e) => {
+                            {
+                                setFormData({
+                                    ...formData,
+                                    price: e.target.value
+                                })
+                            }
+                        }} />
+                    </div>
+                    <div className="grid w-2/3 gap-1.5 mb-5">
+                        <Label htmlFor="explain">상품설명</Label>
+                        <Textarea placeholder="ex) 유럽현지에서 산 정품입니다. 실착 x, s급이에요" id="explain" onChange={(e) => {
+                            {
+                                setFormData({
+                                    ...formData,
+                                    explain: e.target.value
+                                })
+                            }
+                        }} />
+                    </div>
 
                     {/* 파일 한번에 여러개 선택 */}
                     <div className="flex flex-wrap justify-center items-center mt-4 mb-4">
@@ -87,8 +147,10 @@ export const Sell = () => {
                             이미지 추가하기
                             <input type="file" id="input-file" multiple onChange={handleAddImages} className="hidden" />
                         </label>
+                    </div>
+                    <div className="text-center">
                         <button className="mt-4 ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                            사진 올리기
+                            등록하기
                         </button>
                     </div>
                 </div>
