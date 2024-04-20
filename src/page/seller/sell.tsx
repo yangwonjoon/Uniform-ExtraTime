@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Nav } from "@/components/common/nav";
-import { storage, auth } from "../../firebase";
+import { storage } from "../../firebase";
 import { ref, uploadBytes } from "firebase/storage";
 
 export const Sell = () => {
@@ -10,26 +10,25 @@ export const Sell = () => {
     //파일 객체 저장
     const [imageFiles, setImageFiles] = useState<File[]>([]);
 
+    console.log(imageFiles)
+
     const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-
         if (event.target.files && event.target.files.length > 0) {
+            const files: FileList = event.target.files
+            let newImageUrl = [...showImages];
+            let newImageFiles = [...imageFiles];
 
-            console.log(event.target.files)
-
-            const files = Array.from(event.target.files);
-            const newImageUrl = [...showImages];
-            const newImageFiles = [...imageFiles];
-
-            files.forEach((file) => {
-                const currentImageUrl = URL.createObjectURL(file);
+            for (let i = 0; i < files.length; i++) {
+                //createObjectURL : 매개변수로 이미지를 넣고 상대경로를 반환
+                const currentImageUrl = URL.createObjectURL(files[i]);
                 newImageUrl.push(currentImageUrl);
-                newImageFiles.push(file);
-            });
+                newImageFiles.push(files[i]);
+            };
 
-            //5개까지
+            //5개 넘게 선택시 5개까지
             if (newImageUrl.length > 5) {
-                newImageUrl.slice(0, 5);
-                newImageFiles.slice(0, 5);
+                newImageUrl = newImageUrl.slice(0, 5);
+                newImageFiles = newImageFiles.slice(0, 5);
             }
 
             setShowImages(newImageUrl);
@@ -54,8 +53,12 @@ export const Sell = () => {
                 await uploadBytes(storageRef, file);
             }
             console.log("이미지 업로드 성공");
+            setShowImages([]);
+            setImageFiles([]);
         } catch (error) {
             console.error("이미지 업로드 실패 ");
+            setShowImages([]);
+            setImageFiles([]);
         }
     };
 
@@ -65,16 +68,29 @@ export const Sell = () => {
             <form onSubmit={handleSubmit}>
                 <div>
 
-                    <input type="file" id="input-file" multiple onChange={handleAddImages} />
+                    
 
-                    {showImages.map((image, id) => (
-                        <div key={id}>
-                            <img src={image} alt={`Uploaded ${id}`} />
-                            <button type="button" onClick={() => handleDeleteImage(id)}>삭제</button>
-                        </div>
-                    ))}
-                    <br></br>
-                    <button type="submit">사진 올리기</button>
+
+
+
+                    {/* 파일 한번에 여러개 선택 */}
+                    <div className="flex flex-wrap justify-center items-center mt-4 mb-4">
+                        {showImages.map((image, i) => (
+                            <div key={i} className="w-48 h-32 p-2 border flex flex-col justify-center items-center">
+                                <p className="self-end" onClick={() => handleDeleteImage(i)}>삭제</p>
+                                <img src={image} alt={`사진 ${i + 1}`} className="max-w-full max-h-full" />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="text-center">
+                        <label htmlFor="input-file" className="cursor-pointer mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            이미지 추가하기
+                            <input type="file" id="input-file" multiple onChange={handleAddImages} className="hidden" />
+                        </label>
+                        <button className="mt-4 ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">
+                            사진 올리기
+                        </button>
+                    </div>
                 </div>
             </form>
         </>
