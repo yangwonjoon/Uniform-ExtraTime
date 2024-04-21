@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from 'firebase/auth';
 import { userStore } from "@/store/store";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
@@ -38,8 +38,7 @@ export const SellerLogin = () => {
         }
 
         try {
-            //세션 스토리지에 저장
-            // await setPersistence(auth, browserSessionPersistence);
+            await setPersistence(auth, browserSessionPersistence);
             //로그인
             const loginUser = await signInWithEmailAndPassword(
                 auth,
@@ -70,8 +69,6 @@ export const SellerLogin = () => {
             setMsg("로그인 실패");
         }
     };
-
-
     return (
         <>
             <div className="seller-container pt-32 pl-16 pr-16">
