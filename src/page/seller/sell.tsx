@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { setDoc, doc } from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { db } from "../../firebase";
+import { userStore } from "@/store/store";
 
 interface IFormData {
     name: string,
@@ -17,6 +18,7 @@ interface IFormData {
 
 export const Sell = () => {
 
+    const user = userStore(state => state.user)
     const [formData, setFormData] = useState<IFormData>({
         name: '',
         price: '',
@@ -66,16 +68,16 @@ export const Sell = () => {
         try {
             const list: string[] = []
             for (let i = 0; i < imageFiles.length; i++) {
-                const file = imageFiles[i];
-                const storageRef = ref(storage, `products/${file.name}`);
-                await uploadBytes(storageRef, file);
+                const image = imageFiles[i];
+                const storageRef = ref(storage, `${user.uid}/${formData.name}/${image.name}`);
+                await uploadBytes(storageRef, image);
 
                 const downloadUrl = await getDownloadURL(storageRef);
                 list.push(downloadUrl)
             }
 
             //여기 문서 이름 뭐로할꺼 hello말고
-            const dbUsers = doc(db, "products", 'hello');
+            const dbUsers = doc(db, user.uid, formData.name);
             await setDoc(dbUsers, {
                 name: formData.name,
                 price: formData.price,

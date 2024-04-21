@@ -1,4 +1,3 @@
-import "./App.css";
 import { SellerSignUp } from "./page/signup/sellerSignUp";
 import { SellerLogin } from "./page/login/sellerLogin";
 import { Route, Routes } from "react-router-dom";
@@ -8,7 +7,16 @@ import { Logo } from "./components/common/logo";
 import { Sell } from "./page/seller/sell";
 import { Mypage } from "./page/mypage/mypage";
 
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+
 const App = () => {
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("firebase user", user);
+    });
+  }, []);
 
   return (
     <div className="App container mx-auto my-0 w-1/2 h-screen">
@@ -23,6 +31,6 @@ const App = () => {
       </Routes>
     </div>
   );
-};
+}
 
 export default App;

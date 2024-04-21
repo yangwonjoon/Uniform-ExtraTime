@@ -1,31 +1,13 @@
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { userStore } from "@/store/store";
 
 export const Nav = () => {
 
     const navigate = useNavigate()
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const user = userStore(state => state.user)
 
-    useEffect(() => {
-        const sellerLogin = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // 판매자 로그인
-                setIsLoggedIn(true);
-            } else {
-                // 판매자 로그인 x
-                setIsLoggedIn(false);
-            }
-        });
-
-        return () => sellerLogin();
-    }, [isLoggedIn]);
-
-
-    //nav onclick handler
     const clickHandle = (path: string) => {
-        if (path === '/sell' && !isLoggedIn) {
+        if (path === '/sell' && !user.isSeller) {
             alert('판매자만 접근 가능');
             return;
         }

@@ -1,9 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from 'firebase/auth';
-
+import { signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from 'firebase/auth';
+import { userStore } from "@/store/store";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 interface IFormData {
     email: string,
@@ -15,6 +16,7 @@ export const SellerLogin = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<IFormData>({ email: '', password: '' });
     const [msg, setMsg] = useState('');
+    const setUser = userStore(state => state.setUser);
 
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validatePassword = (password: string) => {
@@ -37,19 +39,36 @@ export const SellerLogin = () => {
 
         try {
             await setPersistence(auth, browserSessionPersistence);
+            //로그인
             const loginUser = await signInWithEmailAndPassword(
                 auth,
                 formData.email,
                 formData.password
             );
-            console.log(loginUser);
-            navigate('/');
+            //로그인 되면
+            if (loginUser.user) {
+                //로그인한 db에 접근하여 userData가져와서 userStore에 저장
+                const userDocRef = doc(db, "users", loginUser.user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setUser({
+                        uid: loginUser.user.uid,
+                        email: userData.email,
+                        name: userData.name,
+                        nickname: userData.nickname,
+                        isSeller: userData.isSeller
+                    });
+                    navigate('/');
+                } else {
+                    setMsg("사용자 정보를 찾을 수 없습니다.");
+                }
+            }
         } catch (error) {
-            console.log(error)
+            console.error(error);
             setMsg("로그인 실패");
         }
     };
-
     return (
         <>
             <div className="seller-container pt-32 pl-16 pr-16">
