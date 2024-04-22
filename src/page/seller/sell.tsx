@@ -14,20 +14,8 @@ export const Sell = () => {
     return (
         <>
             <Nav />
-            <button onClick={() => navigate('/sell/createProduct')}>Add Product</button>
+            <button onClick={() => navigate('/sell/createProduct')}>상품등록</button>
 
-            <table>
-                {products.map((product, i) => (
-                    <tr key={product.id || i}>
-                        <td>{product.name}</td>
-                        <td>{product.price}</td>
-                        <td>{product.explain}</td>
-                        <td>
-                            <button onClick={() => deleteProduct(product.id)}>Delete</button>
-                        </td>
-                    </tr>
-                ))}
-            </table>
         </>
     );
 };

@@ -5,57 +5,77 @@ import { storage, db } from "@/firebase";
 import { userStore } from "@/store/store";
 import { IProduct } from "@/page/seller/IProduct";
 
-export const useUploadProduct = (initialState: IProduct) => {
+export const useUploadProduct = () => {
 
     const user = userStore(state => state.user);
-    const [productFormData, setProductFormData] = useState<IProduct>(initialState);
+    const [productFormData, setProductFormData] = useState<IProduct>({
+        email: user.email,
+        name: '',
+        price: '',
+        explain: '',
+        images: []
+    });
     const [showImages, setShowImages] = useState<string[]>([]);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-    const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            const filesArray = Array.from(event.target.files);
+    //이미지 추가
+    const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        if (e.target.files && e.target.files.length > 0) {
+            const filesArray = Array.from(e.target.files);
             const newImageUrls = filesArray.map(file => URL.createObjectURL(file));
             const newImageFiles = filesArray.slice(0, 5);
 
-            if (newImageUrls.length > 5) {
-                alert('Only the first 5 images are accepted');
-            }
-
+            //이미지 url 저장
             setShowImages(newImageUrls.slice(0, 5));
+            //이미지 파일 저장
             setImageFiles(newImageFiles);
         }
     };
 
+    //이미지 삭제
     const handleDeleteImage = (index: number) => {
         setShowImages(showImages.filter((_, idx) => idx !== index));
         setImageFiles(imageFiles.filter((_, idx) => idx !== index));
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const uploadPromises = imageFiles.map(async (file) => {
+    //form 전송
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const uploadStorage = imageFiles.map(async (file) => {
             const storageRef = ref(storage, `products/${user.email}/${productFormData.name}/${file.name}`);
+            //storage에 파일저장
             await uploadBytes(storageRef, file);
+            //파일이미지 url반환
             return getDownloadURL(storageRef);
         });
 
         try {
-            const imageUrls = await Promise.all(uploadPromises);
+            //각 파일을 비동기로 uploadStorage함
+            const imageUrls = await Promise.all(uploadStorage);
+            //db products에 저장
             const productRef = collection(db, 'products');
             await addDoc(productRef, {
                 ...productFormData,
                 images: imageUrls
             });
-            console.log("Image upload successful");
+            console.log("이미지 업로드 완료");
             setShowImages([]);
             setImageFiles([]);
 
         } catch (error) {
-            console.error("Image upload failed", error);
-            alert('Failed to upload images.'); // Notify user of the error
+            console.error("이미지 업로드 실패", error);
         }
     };
+
+    //form input onchange
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        setProductFormData({
+            ...productFormData,
+            [e.target.name]: e.target.value
+        })
+    }
 
     return {
         productFormData,
@@ -63,6 +83,7 @@ export const useUploadProduct = (initialState: IProduct) => {
         handleAddImages,
         handleDeleteImage,
         handleSubmit,
-        setProductFormData
+        setProductFormData,
+        inputChange
     };
 };
