@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { setDoc, doc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { storage, db } from "@/firebase";
 import { userStore } from "@/store/store";
 import { IProduct } from "@/page/seller/IProduct";
@@ -42,21 +42,15 @@ export const useUploadProduct = (initialState: IProduct) => {
 
         try {
             const imageUrls = await Promise.all(uploadPromises);
-            const productRef = doc(db, 'products', productFormData.name);
-            await setDoc(productRef, {
+            const productRef = collection(db, 'products');
+            await addDoc(productRef, {
                 ...productFormData,
                 images: imageUrls
             });
             console.log("Image upload successful");
             setShowImages([]);
             setImageFiles([]);
-            setProductFormData({
-                user_email: '',
-                name: '',
-                price: '',
-                explain: '',
-                images: []
-            })
+
         } catch (error) {
             console.error("Image upload failed", error);
             alert('Failed to upload images.'); // Notify user of the error

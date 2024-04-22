@@ -1,7 +1,8 @@
 export interface IProduct {
-    user_email: string
+    id?: string
+    email?: string
     name: string,
     price: string,
     explain: string,
-    images: []
+    images: string[]
 }
