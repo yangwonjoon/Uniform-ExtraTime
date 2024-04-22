@@ -10,7 +10,6 @@ export const Sell = () => {
     const deleteProduct = useDeleteProduct();
     const user = userStore(state => state.user);
     const products = useReadProduct(user.email);
-    console.log(products)
 
     return (
         <>

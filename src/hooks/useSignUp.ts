@@ -46,6 +46,11 @@ export const useSignUp = () => {
             setMsg("회원가입이 실패하였습니다");
         }
     };
-    return { formData, setFormData, msg, signUp };
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+
+    return { formData, setFormData, msg, signUp, inputChange };
 }
 

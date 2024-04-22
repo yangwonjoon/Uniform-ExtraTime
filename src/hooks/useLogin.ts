@@ -34,5 +34,10 @@ export const useLogin = () => {
             setMsg("로그인 실패");
         }
     };
-    return { formData, setFormData, msg, login }
+
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    return { formData, setFormData, msg, login, inputChange }
 }

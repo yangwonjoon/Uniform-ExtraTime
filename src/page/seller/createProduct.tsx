@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUploadProduct } from "@/hooks/useUploadProduct";
 
 export const CreateProduct = () => {
-    const { inputChange, productFormData, showImages, handleAddImages, handleDeleteImage, handleSubmit, setProductFormData } = useUploadProduct();
+    const { inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct();
 
     return (
         <>
