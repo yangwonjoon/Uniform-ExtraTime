@@ -10,6 +10,7 @@ import { Mypage } from "./page/mypage/mypage";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { CreateProduct } from "./page/seller/createProduct";
 
 const App = () => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path='/team' element={<Team></Team>}></Route>
         <Route path="/sell" element={<Sell></Sell>}></Route>
+        <Route path="/sell/createProduct" element={<CreateProduct></CreateProduct>}></Route>
         <Route path="/mypage" element={<Mypage></Mypage>}></Route>
         <Route path="/signup" element={<SellerSignUp></SellerSignUp>}></Route>
         <Route path="/login" element={<SellerLogin></SellerLogin>}></Route>
