@@ -31,7 +31,7 @@ export const useLogin = () => {
             navigate('/');
         } catch (error) {
             console.error(error);
-            setMsg("로그인 실패: ");
+            setMsg("로그인 실패");
         }
     };
     return { formData, setFormData, msg, login }

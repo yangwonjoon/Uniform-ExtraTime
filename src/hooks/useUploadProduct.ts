@@ -4,9 +4,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { storage, db } from "@/firebase";
 import { userStore } from "@/store/store";
 import { IProduct } from "@/page/seller/IProduct";
+import { useNavigate } from "react-router-dom";
 
 export const useUploadProduct = () => {
 
+    const navigate = useNavigate()
     const user = userStore(state => state.user);
     const [productFormData, setProductFormData] = useState<IProduct>({
         email: user.email,
@@ -17,6 +19,7 @@ export const useUploadProduct = () => {
     });
     const [showImages, setShowImages] = useState<string[]>([]);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
+    console.log(productFormData, showImages, imageFiles)
 
     //이미지 추가
     const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,12 +63,10 @@ export const useUploadProduct = () => {
                 ...productFormData,
                 images: imageUrls
             });
-            console.log("이미지 업로드 완료");
-            setShowImages([]);
-            setImageFiles([]);
-
+            alert('이미지 업로드 완료')
+            navigate('/sell')
         } catch (error) {
-            console.error("이미지 업로드 실패", error);
+            alert('이미지 업로드 실패')
         }
     };
 
