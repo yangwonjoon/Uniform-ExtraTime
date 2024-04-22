@@ -3,14 +3,14 @@ import { loginUser } from "@/api/firebase/loginUser";
 import { useNavigate } from "react-router-dom";
 import { userStore } from "@/store/store";
 import { useState } from "react";
-import { IFormData } from "@/interfaces/login/sellerLogin";
-import { User } from '../store/types'
+import { ILoginFormData } from "@/interfaces/login/login.ts";
+import { User } from '../store/types.ts'
 
 export const useLogin = () => {
 
     const navigate = useNavigate()
     const setUser = userStore(state => state.setUser)
-    const [formData, setFormData] = useState<IFormData>({ email: '', password: '' });
+    const [formData, setFormData] = useState<ILoginFormData>({ email: '', password: '' });
     const [msg, setMsg] = useState('');
 
     const login = async () => {

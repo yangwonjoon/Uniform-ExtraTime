@@ -1,6 +1,6 @@
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { IFormData } from "@/interfaces/signup/sellerSingup";
+import { IFormData } from "@/interfaces/signup/signup";
 
 export const createUserProfile = async (uid: string, formData: IFormData) => {
 

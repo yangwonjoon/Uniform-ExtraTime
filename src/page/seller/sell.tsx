@@ -9,17 +9,17 @@ import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { userStore } from "@/store/store";
 
-interface IFormData {
+interface IProductFormData {
     name: string,
     price: string,
     explain: string,
-    images: string[]
+    images: []
 }
 
 export const Sell = () => {
 
     const user = userStore(state => state.user)
-    const [formData, setFormData] = useState<IFormData>({
+    const [formData, setFormData] = useState<IProductFormData>({
         name: '',
         price: '',
         explain: '',

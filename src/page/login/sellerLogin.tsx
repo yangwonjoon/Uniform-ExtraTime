@@ -2,9 +2,7 @@ import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/useLogin";
 
 export const SellerLogin = () => {
-
     const { formData, setFormData, msg, login } = useLogin()
-
 
     return (
         <>
