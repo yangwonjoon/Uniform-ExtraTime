@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, browserSessionPersistence, setPersistence } from 'firebase/auth';
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from '../../firebase';
+import { auth, db } from '../firebase';
 
 export const loginUser = async (email: string, password: string) => {
 

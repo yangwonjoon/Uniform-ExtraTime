@@ -1,4 +1,4 @@
-export interface ILoginFormData {
+export interface ILogin {
     email: string,
     password: string
 }

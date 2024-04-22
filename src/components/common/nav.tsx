@@ -5,6 +5,7 @@ export const Nav = () => {
 
     const navigate = useNavigate()
     const user = userStore(state => state.user)
+    console.log(user)
 
     const clickHandle = (path: string) => {
         if (path === '/sell' && !user.isSeller) {

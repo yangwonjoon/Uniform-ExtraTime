@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth } from '../firebase';
 import { signOut } from "firebase/auth";
 
 export const signUpUser = async (email: string, password: string) => {

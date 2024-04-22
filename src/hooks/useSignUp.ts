@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { validateEmail, validatePassword, validateName } from "@/utils/validation.ts";
-import { signUpUser } from "@/api/firebase/createUser";
-import { createUserProfile } from "@/api/firebase/createUserProfile";
-import { ISignUpFormData } from "@/interfaces/signup/signup";
+import { signUpUser } from "@/api/createUser";
+import { createUserProfile } from "@/api/createUserProfile";
+import { ISignUp } from "@/page/signup/ISignUp";
 import { useNavigate } from "react-router-dom";
 
 export const useSignUp = () => {
 
     const navigate = useNavigate()
     const [msg, setMsg] = useState('')
-    const [formData, setFormData] = useState<ISignUpFormData>({
+    const [formData, setFormData] = useState<ISignUp>({
         email: '',
         password: '',
         name: '',
