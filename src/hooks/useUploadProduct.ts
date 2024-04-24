@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { storage, db } from "@/firebase";
@@ -11,8 +11,14 @@ export const useUploadProduct = (productFormData: IProduct) => {
     const navigate = useNavigate()
     const user = userStore(state => state.user);
 
-    const [showImages, setShowImages] = useState<string[]>([]);
+    useEffect(() => {
+        setShowImages(productFormData.images || []);
+    }, [productFormData]);
+
+    const [showImages, setShowImages] = useState<string[]>(productFormData.images || []);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
+    console.log(showImages);  // Check the initial content of showImages
+
 
     //이미지 추가
     const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +28,8 @@ export const useUploadProduct = (productFormData: IProduct) => {
             const newImageUrls = filesArray.map(file => URL.createObjectURL(file));
             const newImageFiles = filesArray.slice(0, 5);
 
-            //이미지 url 저장
-            setShowImages(newImageUrls.slice(0, 5));
-            //이미지 파일 저장
-            setImageFiles(newImageFiles);
+            setShowImages(prevImages => [...prevImages, ...newImageUrls.slice(0, 5)]);
+            setImageFiles(prevFiles => [...prevFiles, ...newImageFiles]);
         }
     };
 

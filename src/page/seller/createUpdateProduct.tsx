@@ -26,7 +26,6 @@ export const CreateUpdateProduct = () => {
         }
     }, [product]);
 
-    //form input onchange
     const inputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setProductFormData({
             ...productFormData,
