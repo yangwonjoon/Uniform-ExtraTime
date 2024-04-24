@@ -1,8 +1,8 @@
 import { setDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { ISignUpFormData } from "@/interfaces/signup/signup.ts";
+import { db } from "../firebase";
+import { ISignUp } from "@/page/signup/ISignUp";
 
-export const createUserProfile = async (uid: string, formData: ISignUpFormData) => {
+export const createUserProfile = async (uid: string, formData: ISignUp) => {
 
     const userDocRef = doc(db, "users", uid);
     await setDoc(userDocRef, {

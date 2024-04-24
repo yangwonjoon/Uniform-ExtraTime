@@ -1,16 +1,16 @@
 import { validateEmail, validatePassword } from "@/utils/validation";
-import { loginUser } from "@/api/firebase/loginUser";
+import { loginUser } from "@/api/loginUser.ts";
 import { useNavigate } from "react-router-dom";
 import { userStore } from "@/store/store";
 import { useState } from "react";
-import { ILoginFormData } from "@/interfaces/login/login.ts";
+import { ILogin } from "@/page/login/ILogin.ts";
 import { User } from '../store/types.ts'
 
 export const useLogin = () => {
 
     const navigate = useNavigate()
     const setUser = userStore(state => state.setUser)
-    const [formData, setFormData] = useState<ILoginFormData>({ email: '', password: '' });
+    const [formData, setFormData] = useState<ILogin>({ email: '', password: '' });
     const [msg, setMsg] = useState('');
 
     const login = async () => {
@@ -31,8 +31,13 @@ export const useLogin = () => {
             navigate('/');
         } catch (error) {
             console.error(error);
-            setMsg("로그인 실패: ");
+            setMsg("로그인 실패");
         }
     };
-    return { formData, setFormData, msg, login }
+
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    return { formData, setFormData, msg, login, inputChange }
 }
