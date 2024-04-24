@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { storage, db } from "@/firebase";
 import { userStore } from "@/store/store";
 import { IProduct } from "@/page/seller/IProduct";
 import { useNavigate } from "react-router-dom";
 
-export const useUploadProduct = () => {
+export const useUploadProduct = (productFormData: IProduct) => {
 
     const navigate = useNavigate()
     const user = userStore(state => state.user);
-    const [productFormData, setProductFormData] = useState<IProduct>({
-        email: user.email,
-        name: '',
-        price: '',
-        explain: '',
-        images: []
-    });
+
     const [showImages, setShowImages] = useState<string[]>([]);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
-    console.log(productFormData, showImages, imageFiles)
 
     //이미지 추가
     const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,12 +50,20 @@ export const useUploadProduct = () => {
         try {
             //각 파일을 비동기로 uploadStorage함
             const imageUrls = await Promise.all(uploadStorage);
-            //db products에 저장
-            const productRef = collection(db, 'products');
-            await addDoc(productRef, {
+            const newProductData = {
                 ...productFormData,
                 images: imageUrls
-            });
+            };
+
+            //product id가 있으면 update
+            if (productFormData.id) {
+                const productRef = doc(db, "products", productFormData.id);
+                await setDoc(productRef, newProductData);
+            } else {
+                // 없으면 create
+                const productRef = collection(db, 'products');
+                await addDoc(productRef, newProductData);
+            }
             alert('이미지 업로드 완료')
             navigate('/sell')
         } catch (error) {
@@ -70,13 +71,6 @@ export const useUploadProduct = () => {
         }
     };
 
-    //form input onchange
-    const inputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        setProductFormData({
-            ...productFormData,
-            [e.target.name]: e.target.value
-        })
-    }
 
     return {
         productFormData,
@@ -84,7 +78,5 @@ export const useUploadProduct = () => {
         handleAddImages,
         handleDeleteImage,
         handleSubmit,
-        setProductFormData,
-        inputChange
     };
 };

@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProduct } from "@/page/seller/IProduct";
 
+//이메일 넣으면 product 정보 반환
 export const useReadProduct = (email: string) => {
 
     const [products, setProducts] = useState<IProduct[]>([]);

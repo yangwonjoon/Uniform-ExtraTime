@@ -3,9 +3,37 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { useUploadProduct } from "@/hooks/useUploadProduct";
+import { useProductId } from "@/hooks/useProductId";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { IProduct } from "./IProduct";
 
-export const CreateProduct = () => {
-    const { inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct();
+export const CreateUpdateProduct = () => {
+
+    const { id } = useParams();
+    const product = useProductId(id);
+    const [productFormData, setProductFormData] = useState<IProduct>({
+        email: '',
+        name: '',
+        price: '',
+        explain: '',
+        images: []
+    });
+
+    useEffect(() => {
+        if (product) {
+            setProductFormData(product);
+        }
+    }, [product]);
+
+    //form input onchange
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        setProductFormData({
+            ...productFormData,
+            [e.target.name]: e.target.value
+        })
+    }
+    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
 
     return (
         <>
@@ -14,15 +42,15 @@ export const CreateProduct = () => {
                 <div className="pt-10 flex flex-col items-center min-h-screen">
                     <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
                         <Label htmlFor="name">상품명</Label>
-                        <Input type="text" id="name" placeholder="상품명을 입력해주세요" name="name" onChange={inputChange} />
+                        <Input type="text" id="name" placeholder="상품명을 입력해주세요" name="name" value={productFormData.name} onChange={inputChange} />
                     </div>
                     <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
                         <Label htmlFor="price">가격</Label>
-                        <Input type="text" id="price" placeholder="상품가격을 입력해주세요" name="price" onChange={inputChange} />
+                        <Input type="text" id="price" placeholder="상품가격을 입력해주세요" name="price" value={productFormData.price} onChange={inputChange} />
                     </div>
                     <div className="grid w-2/3 gap-1.5 mb-5">
                         <Label htmlFor="explain">상품설명</Label>
-                        <Textarea placeholder="상품설명을 입력해주세요" id="explain" name="explain" onChange={inputChange} />
+                        <Textarea placeholder="상품설명을 입력해주세요" id="explain" name="explain" value={productFormData.explain} onChange={inputChange} />
                     </div>
 
                     {/* 파일 한번에 여러개 선택 */}
