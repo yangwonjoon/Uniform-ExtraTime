@@ -29,7 +29,7 @@ export const Sell = () => {
                                 <img src={product.images[2]} alt="img 2" className="max-w-full max-h-full" />
                             </div>
                             <div className="col-span-1 flex items-center justify-center">
-                                <img src={product.images[2]} alt="img 3" className="max-w-full max-h-full" />
+                                <img src={product.images[3]} alt="img 3" className="max-w-full max-h-full" />
                             </div>
                         </div>
                     </div>

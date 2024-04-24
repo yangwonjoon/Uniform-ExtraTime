@@ -34,7 +34,7 @@ export const CreateUpdateProduct = () => {
             [e.target.name]: e.target.value
         })
     }
-    console.log(productFormData)
+
     const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
 
     return (
