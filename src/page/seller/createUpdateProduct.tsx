@@ -7,13 +7,15 @@ import { useProductId } from "@/hooks/useProductId";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IProduct } from "./IProduct";
+import { userStore } from "@/store/store";
 
 export const CreateUpdateProduct = () => {
 
     const { id } = useParams();
+    const user = userStore(state => state.user);
     const product = useProductId(id);
     const [productFormData, setProductFormData] = useState<IProduct>({
-        email: '',
+        email: user.email,
         name: '',
         price: '',
         explain: '',
@@ -32,6 +34,7 @@ export const CreateUpdateProduct = () => {
             [e.target.name]: e.target.value
         })
     }
+    console.log(productFormData)
     const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
 
     return (

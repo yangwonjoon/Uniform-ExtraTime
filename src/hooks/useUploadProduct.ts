@@ -17,8 +17,6 @@ export const useUploadProduct = (productFormData: IProduct) => {
 
     const [showImages, setShowImages] = useState<string[]>(productFormData.images || []);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
-    console.log(showImages);  // Check the initial content of showImages
-
 
     //이미지 추가
     const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +56,7 @@ export const useUploadProduct = (productFormData: IProduct) => {
                 ...productFormData,
                 images: imageUrls
             };
+            console.log("Uploading new product data:", newProductData);
 
             //product id가 있으면 update
             if (productFormData.id) {
