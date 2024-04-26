@@ -1,79 +1,60 @@
 import { useState, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { storage, db } from "@/firebase";
 import { userStore } from "@/store/store";
-import { IProduct } from "@/page/seller/IProduct";
+import { IProductFormData } from "@/types/types";
 import { useNavigate } from "react-router-dom";
+import { uploadProductImageFiles } from "@/api/product/uploadProductImageFiles";
+import { uploadProductFormData } from "@/api/product/uploadProductFormData";
 
-export const useUploadProduct = (productFormData: IProduct) => {
+export const useUploadProduct = (productFormData: IProductFormData) => {
 
     useEffect(() => {
-        setShowImages(productFormData.images || []);
+        setShowImages(productFormData.productImages || []);
     }, [productFormData]);
 
     const navigate = useNavigate()
     const user = userStore(state => state.user);
-    const [showImages, setShowImages] = useState<string[]>(productFormData.images || []);
+    const [showImages, setShowImages] = useState<string[]>(productFormData.productImages || []);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
 
     //이미지 추가
     const handleAddImages = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        if (e.target.files && e.target.files.length > 0) {
-            const filesArray = Array.from(e.target.files);
-            const newShowImages = filesArray.map(file => URL.createObjectURL(file));
-            const newImageFiles = filesArray.slice(0, 5);
+        const IMG_FILES = e.target.files;
+        if (IMG_FILES) {
+            const totalFileCount = imageFiles.length + IMG_FILES.length;
+            if (totalFileCount > 5) {
+                alert('이미지 파일은 5개까지 업로드 가능합니다');
+                return;
+            }
+            const newImageFiles = Array.from(IMG_FILES);
+            const newShowImages = newImageFiles.map(file => URL.createObjectURL(file));
 
-            setShowImages(prevImages => [...prevImages, ...newShowImages.slice(0, 5)]);
+            setShowImages(prevImages => [...prevImages, ...newShowImages]);
             setImageFiles(prevFiles => [...prevFiles, ...newImageFiles]);
         }
     };
 
-    //이미지 삭제
+    //이미지 삭제(0)
     const handleDeleteImage = (index: number) => {
         setShowImages(showImages.filter((_, idx) => idx !== index));
         setImageFiles(imageFiles.filter((_, idx) => idx !== index));
     };
 
-    //이미지 업로드
-    const uploadImage = async (file: File) => {
-        const storageRef = ref(storage, `products/${user.email}/${productFormData.name}/${file.name}`);
-        try {
-            await uploadBytes(storageRef, file);
-            const imageUrl = await getDownloadURL(storageRef);
-
-            return `${imageUrl}?timestamp=${new Date().getTime()}`;
-        } catch (error) {
-            console.log("uploadImage 에러");
-        }
-    };
-
     //폼전송
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const IMG_FILES_NUM = imageFiles.length
+        if (!IMG_FILES_NUM) {
+            alert('이미지를 넣어주세요');
+            return;
+        }
 
         try {
-            const newImageUrls = imageFiles.length > 0
-                ? await Promise.all(imageFiles.map(file => uploadImage(file)))
-                : [];
+            const imageUrls = await Promise.all(imageFiles.map(file => uploadProductImageFiles(file, user.email, productFormData.productName)))
+            const finalImageUrls = [...imageUrls, ...productFormData.productImages];
+            const finalProductFormData: IProductFormData = { ...productFormData, productImages: finalImageUrls as string[] };
+            uploadProductFormData(finalProductFormData, productFormData.productId as string)
 
-            const finalImageUrls = [...newImageUrls, ...productFormData.images.filter(url => {
-                return showImages.includes(url);
-            })];
-
-            const newProductData = {
-                ...productFormData,
-                images: finalImageUrls
-            };
-
-            if (productFormData.id) {
-                const productRef = doc(db, "products", productFormData.id);
-                await setDoc(productRef, newProductData, { merge: true });
-            } else {
-                const productRef = collection(db, 'products');
-                await addDoc(productRef, newProductData);
-            }
             alert('업로드 성공');
             navigate('/sell');
         } catch (error) {

@@ -17,3 +17,15 @@ export interface ILoginFormData {
     email: string,
     password: string
 }
+
+export interface IProductFormData {
+    productId?: string
+    userEmail?: string
+    productName: string,
+    productPrice: string,
+    productDescription: string,
+    productImages: string[],
+    productCategory?: string,
+    createdAt: Date,
+    updatedAt: Date
+}

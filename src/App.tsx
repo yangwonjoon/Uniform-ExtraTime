@@ -8,12 +8,12 @@ import { Team } from "./page/main/Team";
 import { Logo } from "./components/common/Logo";
 import { Sell } from "./page/seller/Sell";
 import { Mypage } from "./page/mypage/MyPage";
-import { CreateUpdateProduct } from "./page/seller/CreateUpdateProduct";
+import { CreateUpdateProduct } from "./components/product/CreateUpdateProduct";
 import { userStore } from "./store/store";
 
 const App = () => {
-  const user = userStore((state) => (state.user))
-  console.log(user)
+  // const user = userStore((state) => (state.user))
+  // console.log(user)
 
   return (
     <div className="App container mx-auto my-0 w-1/2 h-screen">
