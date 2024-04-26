@@ -2,8 +2,8 @@ import { Nav } from "@/components/common/Nav";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
-import { useUploadProduct } from "@/hooks/useUploadProduct";
-import { useProductId } from "@/hooks/useProductId";
+import { useUploadProduct } from "@/hooks/product/useUploadProduct";
+import { useProductId } from "@/hooks/product/useProductId";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IProduct } from "./IProduct";

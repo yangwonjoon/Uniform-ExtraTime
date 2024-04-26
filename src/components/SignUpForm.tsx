@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useSignUp } from "@/hooks/useSignUp";
+import { useSignUp } from "@/hooks/signup/useSignUp";
 import { ISignUpFormProps } from "@/types/types";
 
 export const SignUpForm = ({ isSeller, name }: ISignUpFormProps) => {

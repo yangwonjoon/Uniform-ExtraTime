@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Nav } from "@/components/common/Nav";
-import { useReadProduct } from "@/hooks/useReadProduct";
-import { useDeleteProduct } from "@/hooks/useDeleteProduct";
+import { useReadProduct } from "@/hooks/product/useReadProduct";
+import { useDeleteProduct } from "@/hooks/product/useDeleteProduct";
 import { userStore } from "@/store/store";
 
 export const Sell = () => {

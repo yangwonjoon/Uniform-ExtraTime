@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
-import { useLogin } from "@/hooks/useLogin";
+import { useLogin } from "@/hooks/login/useLogin";
 
-export const SellerLogin = () => {
+export const Login = () => {
     const { msg, login, inputChange } = useLogin()
 
     return (
