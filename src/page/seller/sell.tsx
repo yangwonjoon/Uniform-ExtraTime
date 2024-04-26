@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Nav } from "@/components/common/nav";
+import { Nav } from "@/components/common/Nav";
 import { useReadProduct } from "@/hooks/useReadProduct";
 import { useDeleteProduct } from "@/hooks/useDeleteProduct";
 import { userStore } from "@/store/store";

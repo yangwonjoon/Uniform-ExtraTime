@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
-import { Nav } from "../../components/common/nav";
+import { Nav } from "../../components/common/Nav";
 import { userStore } from "@/store/store";
 
 export const Home = () => {

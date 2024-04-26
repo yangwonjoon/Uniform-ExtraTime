@@ -1,4 +1,4 @@
-import { Nav } from "../../components/common/nav";
+import { Nav } from "../../components/common/Nav";
 
 export const Team = () => {
     return (
