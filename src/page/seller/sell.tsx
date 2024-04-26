@@ -37,11 +37,10 @@ export const Sell = () => {
                         <h1 className="font-bold">상품명: {product.productName}</h1>
                         <p className="font-semibold">가격: {product.productPrice}원</p>
                         <p >{product.productDescription}</p>
-                        <p>{product.userUid}</p>
                     </div>
                     <div className="col-span-2 p-2 flex flex-col justify-around items-center">
-                        <button className="px-4 py-2 rounded-md" onClick={() => navigate(`/sell/createProduct/${product.userUid}`)}>수정</button>
-                        <button className="px-4 py-2 rounded-md" onClick={() => { product.userUid && deleteProduct(product.userUid) }}>삭제</button>
+                        <button className="px-4 py-2 rounded-md" onClick={() => navigate(`/sell/createProduct/${product.productId}`)}>수정</button>
+                        <button className="px-4 py-2 rounded-md" onClick={() => { product.productId && deleteProduct(product.productId) }}>삭제</button>
                     </div>
                 </div>
             ))}

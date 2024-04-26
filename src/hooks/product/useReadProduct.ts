@@ -21,7 +21,7 @@ export const useReadProduct = (email: string) => {
                 //user.email의 db데이터 querySnapshot에 담아서 setProducts에 담음
                 const querySnapshot = await getDocs(q);
                 const fetchedProducts = querySnapshot.docs.map(doc => ({
-                    id: doc.id,  // 자동 생성 document.id
+                    productId: doc.id,  // 자동 생성 document.id
                     ...doc.data() as IProductFormData
                 }));
 

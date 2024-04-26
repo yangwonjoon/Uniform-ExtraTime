@@ -41,7 +41,7 @@ export const useUploadProduct = (productFormData: IProductFormData) => {
     };
 
     //폼전송
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const IMG_FILES_NUM = imageFiles.length
         if (!IMG_FILES_NUM) {
