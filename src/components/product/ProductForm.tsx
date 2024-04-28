@@ -15,6 +15,7 @@ interface IProductFormProps {
 }
 
 export const ProductForm = ({ productFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit }: IProductFormProps) => {
+    console.log(showImages)
     return (
         <>
             <Nav />

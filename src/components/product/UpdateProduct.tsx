@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useProductForm } from "@/hooks/product/useProductForm";
-import { useGetProductById } from "@/hooks/product/useGetProductById";
+import { useGetProductFormData } from "@/hooks/product/useGetProductFormData";
 import { useUploadProduct } from "@/hooks/product/useUploadProduct";
 import { ProductForm } from "@/components/product/ProductForm";
 
 export const UpdateProduct = () => {
 
     const { productId } = useParams();
-    const product = useGetProductById(productId);
+    const product = useGetProductFormData(productId as string);
     const { productFormData, setProductFormData, inputChange } = useProductForm(product || {
         userEmail: '',
         productName: '',
@@ -26,6 +26,7 @@ export const UpdateProduct = () => {
     }, [product]);
 
     const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
+    console.log(product)
 
     return (
         <ProductForm
