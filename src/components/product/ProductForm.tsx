@@ -1,49 +1,20 @@
-import * as React from "react"
-import { Nav } from "@/components/common/Nav";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea";
-import { useUploadProduct } from "@/hooks/product/useUploadProduct";
-import { useProductId } from "@/hooks/product/useProductId";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { userStore } from "@/store/store";
-import { IProductFormData } from "@/types/types";
+import { Nav } from "../common/Nav";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import { InputImages } from "./InputImages";
+import { IProductFormData } from "@/types/types";
 
-export const CreateUpdateProduct = () => {
+interface IProductFormProps {
+    productFormData: IProductFormData;
+    inputChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+    showImages: string[];
+    handleAddImages: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleDeleteImage: (index: number) => void;
+    handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
 
-    //update시
-    const { productId } = useParams();
-    const product = useProductId(productId);
-    useEffect(() => {
-        if (product) {
-            setProductFormData(product);
-        }
-    }, [product]);
-
-
-    const user = userStore(state => state.user);
-    const today = new Date()
-    const [productFormData, setProductFormData] = useState<IProductFormData>({
-        userEmail: user.email,
-        productName: '',
-        productPrice: '',
-        productDescription: '',
-        productImages: [],
-        createdAt: today,
-        updatedAt: today
-    });
-
-    const inputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        setProductFormData({
-            ...productFormData,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
-
+export const ProductForm = ({ productFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit }: IProductFormProps) => {
     return (
         <>
             <Nav />
@@ -71,4 +42,4 @@ export const CreateUpdateProduct = () => {
             </div>
         </>
     );
-} 
+};

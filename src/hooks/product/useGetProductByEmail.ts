@@ -4,7 +4,7 @@ import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
 
 //이메일 넣으면 product 정보 반환
-export const useReadProduct = (email: string) => {
+export const useGetProductByEmail = (email: string) => {
 
     const [products, setProducts] = useState<IProductFormData[]>([]);
 

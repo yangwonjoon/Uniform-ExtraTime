@@ -8,12 +8,10 @@ import { Team } from "./page/main/Team";
 import { Logo } from "./components/common/Logo";
 import { Sell } from "./page/seller/Sell";
 import { Mypage } from "./page/mypage/MyPage";
-import { CreateUpdateProduct } from "./components/product/CreateUpdateProduct";
-import { userStore } from "./store/store";
+import { UpdateProduct } from "./components/product/UpdateProduct";
+import { CreateProduct } from "./components/product/CreateProduct";
 
 const App = () => {
-  // const user = userStore((state) => (state.user))
-  // console.log(user)
 
   return (
     <div className="App container mx-auto my-0 w-1/2 h-screen">
@@ -22,8 +20,8 @@ const App = () => {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path='/team' element={<Team></Team>}></Route>
         <Route path="/sell" element={<Sell></Sell>}></Route>
-        <Route path="/sell/createProduct" element={<CreateUpdateProduct></CreateUpdateProduct>}></Route>
-        <Route path="/sell/createProduct/:id" element={<CreateUpdateProduct></CreateUpdateProduct>} />
+        <Route path="/sell/createProduct" element={<CreateProduct></CreateProduct>}></Route>
+        <Route path="/sell/updateProduct/:productId" element={<UpdateProduct></UpdateProduct>} />
 
         {/* 로그인, 회원가입 */}
         <Route path="/mypage" element={<Mypage></Mypage>}></Route>

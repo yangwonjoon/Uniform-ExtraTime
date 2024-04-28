@@ -3,10 +3,9 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from '@/types/types';
 
-export const useProductId = (productId: string | undefined) => {
+export const useGetProductById = (productId: string | undefined) => {
 
     const [product, setProduct] = useState<IProductFormData | undefined>();
-
 
     useEffect(() => {
         if (!productId) return;
