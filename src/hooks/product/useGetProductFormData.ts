@@ -15,8 +15,8 @@ export const useGetProductFormData = (productId: string) => {
             if (docSnap.exists()) {
                 setProduct({
                     productId: docSnap.id,
-                    ...(docSnap.data() as IProductFormData),
-                    updatedAt: new Date()
+                    ...(docSnap.data() as IProductFormData)
+                    // updatedAt: new Date()
                 });
             } else {
                 console.error("useProductId error");

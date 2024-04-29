@@ -11,14 +11,16 @@ interface Props {
     productFormData: IProductFormData;
     validateProductForm: () => boolean;
     setMsg: Dispatch<SetStateAction<string>>;
+    setProductFormData: Dispatch<SetStateAction<IProductFormData>>;
 }
 
-export const useUploadProduct = ({ productFormData, validateProductForm, setMsg }: Props) => {
+export const useUploadProduct = ({ productFormData, validateProductForm, setMsg, setProductFormData }: Props) => {
     const navigate = useNavigate();
     const user = userStore(state => state.user);
     const [showImages, setShowImages] = useState<string[]>(productFormData.productImages || []);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     console.log(productFormData)
+
 
     useEffect(() => {
         setShowImages(productFormData.productImages);
@@ -50,6 +52,11 @@ export const useUploadProduct = ({ productFormData, validateProductForm, setMsg 
             // Firebase Storage에서 이미지 삭제
             try {
                 await deleteProductImage(imageUrl);
+                // 삭제 성공 후, productFormData 업데이트
+                setProductFormData(prevState => ({
+                    ...prevState,
+                    productImages: prevState.productImages.filter(url => url !== imageUrl)
+                }));
             } catch (error) {
                 console.error('Error deleting image', error);
                 alert('이미지 삭제 에러');

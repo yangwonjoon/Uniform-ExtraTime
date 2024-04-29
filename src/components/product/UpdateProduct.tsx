@@ -26,8 +26,16 @@ export const UpdateProduct = () => {
         }
     }, [product]);
 
-    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg });
-    console.log(product)
+    useEffect(() => {
+        if (product) {
+            setProductFormData({
+                ...product,
+                updatedAt: new Date()
+            });
+        }
+    }, [product]);
+
+    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg, setProductFormData });
 
     return (
         <ProductForm
