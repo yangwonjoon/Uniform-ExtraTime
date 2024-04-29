@@ -12,8 +12,8 @@ export const CreateProduct = () => {
         userEmail: user.email,
         productName: '',
         productPrice: '',
-        productDescription: '',
         productCategory: 0,
+        productDescription: '',
         productImages: [],
         createdAt: new Date(),
         updatedAt: new Date()

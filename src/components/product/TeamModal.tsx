@@ -39,6 +39,7 @@ export const TeamModal = ({ productFormData, setProductFormData }: ITeamModal) =
     const [team, setTeam] = useState(0)
     const [msg, setMsg] = useState('')
 
+
     const handleSelectTeam = (team: ITeams) => {
         setTeam(team.id);
         setMsg(team.name)
@@ -47,7 +48,7 @@ export const TeamModal = ({ productFormData, setProductFormData }: ITeamModal) =
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">팀 선택</Button>
+                <Button variant="outline">{team > 0 ? teams.find(t => t.id === team)?.name : '팀 선택'}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
