@@ -12,10 +12,10 @@ interface IProductFormProps {
     handleAddImages: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDeleteImage: (index: number) => void;
     handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    msg: string;
 }
 
-export const ProductForm = ({ productFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit }: IProductFormProps) => {
-    console.log(showImages)
+export const ProductForm = ({ productFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit, msg }: IProductFormProps) => {
     return (
         <>
             <Nav />
@@ -35,6 +35,7 @@ export const ProductForm = ({ productFormData, inputChange, showImages, handleAd
 
                 <InputImages showImages={showImages} handleAddImages={handleAddImages} handleDeleteImage={handleDeleteImage}></InputImages>
 
+                {msg && <div className="text-red-500 mb-4">{msg}</div>}
                 <div className="text-center">
                     <button className="mt-4 ml-4 font-bold py-2 px-4 rounded" onClick={handleSubmit}>
                         등록하기

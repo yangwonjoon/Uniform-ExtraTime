@@ -6,6 +6,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel"
+import { Label } from "../ui/label";
 
 interface InputImages {
     showImages: string[];
@@ -16,6 +17,7 @@ interface InputImages {
 export const InputImages = ({ showImages, handleDeleteImage, handleAddImages }: InputImages) => {
     return (
         <>
+            <p>이미지는 4개 이상 올려주세요</p>
             <Carousel
                 opts={{
                     align: "start",
@@ -23,7 +25,7 @@ export const InputImages = ({ showImages, handleDeleteImage, handleAddImages }: 
                 className="w-full max-w-sm"
             >
                 <CarouselContent>
-                    {showImages.concat(Array(5 - showImages.length).fill('')).map((image, index) => (
+                    {showImages.map((image, index) => (
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
                                 <Card>
@@ -49,7 +51,10 @@ export const InputImages = ({ showImages, handleDeleteImage, handleAddImages }: 
                 <CarouselPrevious />
                 <CarouselNext />
             </Carousel>
-            <input type="file" id="input-file" multiple onChange={handleAddImages} className="hidden" />
+            <Label htmlFor="input-file">
+                이미지 추가하기
+                <input type="file" id="input-file" multiple onChange={handleAddImages} className="hidden" />
+            </Label>
         </>
     )
 }
