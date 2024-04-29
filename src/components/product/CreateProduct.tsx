@@ -8,20 +8,23 @@ export const CreateProduct = () => {
 
     const user = userStore(state => state.user);
     const [msg, setMsg] = useState('');
-    const { productFormData, inputChange, validateProductForm } = useProductForm({
+    const { productFormData, setProductFormData, inputChange, validateProductForm } = useProductForm({
         userEmail: user.email,
         productName: '',
         productPrice: '',
         productDescription: '',
+        productCategory: 0,
         productImages: [],
         createdAt: new Date(),
         updatedAt: new Date()
     }, setMsg);
-    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg });
+    console.log(productFormData)
+    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg, setProductFormData });
 
     return (
         <ProductForm
             productFormData={productFormData}
+            setProductFormData={setProductFormData}
             inputChange={inputChange}
             showImages={showImages}
             handleAddImages={handleAddImages}
