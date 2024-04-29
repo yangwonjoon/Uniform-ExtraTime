@@ -11,6 +11,11 @@ export const Nav = () => {
             alert('판매자만 접근 가능');
             return;
         }
+        if (path === '/mypage' && !user.uid) {
+            alert('로그인 해주세요!');
+            return;
+        }
+
         navigate(path)
     }
 
