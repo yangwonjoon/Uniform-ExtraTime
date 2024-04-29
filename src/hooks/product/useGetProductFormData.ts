@@ -13,7 +13,11 @@ export const useGetProductFormData = (productId: string) => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                setProduct({ productId: docSnap.id, ...(docSnap.data() as IProductFormData) });
+                setProduct({
+                    productId: docSnap.id,
+                    ...(docSnap.data() as IProductFormData),
+                    updatedAt: new Date()
+                });
             } else {
                 console.error("useProductId error");
             }

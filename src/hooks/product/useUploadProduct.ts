@@ -18,6 +18,7 @@ export const useUploadProduct = ({ productFormData, validateProductForm, setMsg 
     const user = userStore(state => state.user);
     const [showImages, setShowImages] = useState<string[]>(productFormData.productImages || []);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
+    console.log(productFormData)
 
     useEffect(() => {
         setShowImages(productFormData.productImages);
@@ -40,43 +41,38 @@ export const useUploadProduct = ({ productFormData, validateProductForm, setMsg 
     };
 
     const handleDeleteImage = async (index: number) => {
-        const oldImageUrl = showImages[index];
-        const isBlob = oldImageUrl.startsWith('blob:');
-
-        // Blob URL 해제 또는 Firebase Storage에서 파일 삭제
+        const imageUrl = showImages[index];
+        const isBlob = imageUrl.startsWith('blob:');
+        // Blob URL 해제
         if (isBlob) {
-            URL.revokeObjectURL(oldImageUrl);
+            URL.revokeObjectURL(imageUrl);
         } else {
-            // Firebase에서 이미지 파일 삭제
+            // Firebase Storage에서 이미지 삭제
             try {
-                await deleteProductImage(oldImageUrl);
+                await deleteProductImage(imageUrl);
             } catch (error) {
                 console.error('Error deleting image', error);
                 alert('이미지 삭제 에러');
                 return;
             }
         }
-
-        // showImages 및 imageFiles에서 해당 인덱스의 이미지 제거
+        // showImages 및 imageFiles에서 해당 인덱스의 항목 제거
         setShowImages(prev => prev.filter((_, idx) => idx !== index));
-        if (isBlob) {
-            // imageFiles는 blob URL에 해당하는 파일만 보유하므로, blob URL인 경우에만 파일 배열에서 제거
-            setImageFiles(prev => prev.filter((_, idx) => idx !== index));
-        }
+        setImageFiles(prev => prev.filter((_, idx) => idx !== index));
     };
-
 
 
     // 폼 전송 및 업로드
     const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!validateProductForm()) {
-            return;  // 필드 검증 실패 시 반환
+            return;
         }
-        // 이미지 개수 검증
-        if (showImages.length < 4) {
+
+        const INPUT_IMG_LENGTH = showImages.length
+        if (INPUT_IMG_LENGTH < 4) {
             setMsg('이미지는 최소 4개 이상 업로드해야 합니다.');
-            return;  // 이미지 개수 부족 시 반환
+            return;
         }
 
         try {

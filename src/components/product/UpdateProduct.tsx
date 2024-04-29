@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProductForm } from "@/hooks/product/useProductForm";
 import { useGetProductFormData } from "@/hooks/product/useGetProductFormData";
 import { useUploadProduct } from "@/hooks/product/useUploadProduct";
@@ -9,7 +9,8 @@ export const UpdateProduct = () => {
 
     const { productId } = useParams();
     const product = useGetProductFormData(productId as string);
-    const { productFormData, setProductFormData, inputChange } = useProductForm(product || {
+    const [msg, setMsg] = useState('');
+    const { productFormData, setProductFormData, validateProductForm, inputChange } = useProductForm(product || {
         userEmail: '',
         productName: '',
         productPrice: '',
@@ -17,7 +18,7 @@ export const UpdateProduct = () => {
         productImages: [],
         createdAt: new Date(),
         updatedAt: new Date()
-    });
+    }, setMsg);
 
     useEffect(() => {
         if (product) {
@@ -25,7 +26,7 @@ export const UpdateProduct = () => {
         }
     }, [product]);
 
-    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct(productFormData);
+    const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg });
     console.log(product)
 
     return (
@@ -36,6 +37,7 @@ export const UpdateProduct = () => {
             handleAddImages={handleAddImages}
             handleDeleteImage={handleDeleteImage}
             handleSubmit={handleSubmit}
+            msg={msg}
         />
     );
 };

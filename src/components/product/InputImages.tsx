@@ -17,7 +17,7 @@ interface InputImages {
 export const InputImages = ({ showImages, handleDeleteImage, handleAddImages }: InputImages) => {
     return (
         <>
-            <p>이미지는 4개 이상 올려주세요</p>
+
             <Carousel
                 opts={{
                     align: "start",
