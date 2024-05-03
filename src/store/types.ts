@@ -1,3 +1,5 @@
+import { IProductFormData } from "@/types/types";
+
 export interface User {
     email: string;
     name: string;
@@ -11,3 +13,9 @@ export interface UserState {
     setUser: (user: User) => void;
 }
 
+
+export interface CartStore {
+    cart: string[];
+    setCart: (productId: string) => void
+    addCart: (productId: string) => void
+}

@@ -1,7 +1,7 @@
 import { IProductFormData } from "@/types/types"
 import { useNavigate } from "react-router-dom";
 import { useDeleteProduct } from "@/hooks/product/useDeleteProduct";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 
 interface IProductView {
     product: IProductFormData;

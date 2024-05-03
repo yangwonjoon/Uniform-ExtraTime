@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
-import { UserState, User, } from './types';
+import { UserState, User } from './types';
 
 export const userStore = create<UserState>()(
     persist(

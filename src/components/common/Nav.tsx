@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 
 export const Nav = () => {
 

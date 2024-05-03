@@ -1,11 +1,19 @@
 import { Nav } from "../../components/common/Nav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as bookmark } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark as filledBookmark } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
+import { cartStore } from "@/store/cartStore";
+import { userStore } from "@/store/userStore";
 
 export const Home = () => {
     const [products, setProducts] = useState<IProductFormData[]>([]);
+    const { cart, addCart } = cartStore()
+    const { user } = userStore()
+
     useEffect(() => {
         const readProducts = async () => {
             const productsRef = collection(db, "products");
@@ -25,24 +33,36 @@ export const Home = () => {
         readProducts();
     }, []);
 
+    const handleOnClick = (productId: string | undefined) => {
+        if (!productId) {
+            alert('제품 정보가 올바르지 않습니다.');
+            return;
+        }
+        if (user.email && !user.isSeller) {
+            addCart(productId);
+        } else {
+            alert('로그인해주세요!');
+        }
+    }
+
     return (
         <div>
             <Nav></Nav>
             <div className="container mx-auto">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2">
                     {products && (
                         products.map((product, i) => (
-                            <div key={i} className="mx-auto my-5  w-48">
+                            <div key={i} className="mx-auto my-5 w-48">
                                 <div className="flex items-center justify-center p-3 h-48 shadow-lg rounded-lg border border-black relative">
                                     <div className="w-full h-full ">
                                         <img src={product.productImages[0]} alt="메인 이미지" className="object-contain w-full h-full" />
-                                        <button className="absolute bottom-0 right-0 m-2 py-1 bg-black text-white rounded-md">찜</button>
+                                        <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleOnClick(product.productId)} />
                                     </div>
                                 </div>
                                 <div className="flex flex-col p-3">
                                     <h1 className="font-bold">{product.productName}</h1>
                                     <p className="mb-2">{product.productDescription}</p>
-                                    <p className="font-semibold text-md">{product.productPrice}원</p>
+                                    <p className="font-semibold text-md">{product.productId}원</p>
                                 </div>
                             </div>
                         ))

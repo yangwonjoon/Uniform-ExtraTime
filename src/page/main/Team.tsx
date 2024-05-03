@@ -1,6 +1,6 @@
 import { Nav } from "../../components/common/Nav";
 import { useNavigate } from "react-router-dom"
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 import { useLogout } from "@/hooks/logout/useLogout";
 
 export const Team = () => {

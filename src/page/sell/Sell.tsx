@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Nav } from "@/components/common/Nav";
 import { useGetProductByEmail } from "@/hooks/product/useGetProductByEmail";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 import { ProductView } from "@/components/product/ProductView";
 
 export const Sell = () => {

@@ -1,7 +1,7 @@
 import { useProductForm } from "@/hooks/product/useProductForm";
 import { useUploadProduct } from "@/hooks/product/useUploadProduct";
 import { ProductForm } from "@/components/product/ProductForm";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 import { useState } from "react";
 
 export const CreateProduct = () => {
