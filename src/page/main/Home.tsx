@@ -11,7 +11,7 @@ import { userStore } from "@/store/userStore";
 
 export const Home = () => {
     const [products, setProducts] = useState<IProductFormData[]>([]);
-    const { cart, addCart } = cartStore()
+    const { cart, addCart, removeCart } = cartStore()
     const { user } = userStore()
 
     useEffect(() => {
@@ -33,15 +33,19 @@ export const Home = () => {
         readProducts();
     }, []);
 
-    const handleOnClick = (productId: string | undefined) => {
+    const handleToggleCart = (productId: string | undefined) => {
         if (!productId) {
             alert('제품 정보가 올바르지 않습니다.');
             return;
         }
         if (user.email && !user.isSeller) {
-            addCart(productId);
+            if (cart.includes(productId)) {
+                removeCart(productId)
+            } else {
+                addCart(productId)
+            }
         } else {
-            alert('로그인해주세요!');
+            alert('구매자 아이디로 로그인해주세요!');
         }
     }
 
@@ -56,7 +60,11 @@ export const Home = () => {
                                 <div className="flex items-center justify-center p-3 h-48 shadow-lg rounded-lg border border-black relative">
                                     <div className="w-full h-full ">
                                         <img src={product.productImages[0]} alt="메인 이미지" className="object-contain w-full h-full" />
-                                        <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleOnClick(product.productId)} />
+                                        {
+                                            product.productId && cart.includes(product.productId) ?
+                                                <FontAwesomeIcon icon={filledBookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
+                                                : <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
+                                        }
                                     </div>
                                 </div>
                                 <div className="flex flex-col p-3">

@@ -10,36 +10,10 @@ import { Sell } from "./page/sell/Sell";
 import { Mypage } from "./page/mypage/MyPage";
 import { UpdateProduct } from "./components/product/UpdateProduct";
 import { CreateProduct } from "./components/product/CreateProduct";
-import { auth, db } from './firebase'
-import { collection, getDoc, query, doc } from "firebase/firestore";
-import { cartStore } from "@/store/cartStore";
-import { useEffect } from "react";
+import { existedCartState } from "./api/cart/existedCartState";
 
 const App = () => {
-
-  useEffect(() => {
-    const cartFromFireStore = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userId = user.uid;
-        const docRef = doc(db, "carts", userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data && data.items) {
-            cartStore.setState({ cart: data.items });
-          } else {
-            console.log("카드에 아이템 없음");
-          }
-        } else {
-          console.log("cartFromFireStore ERROR");
-        }
-      } else {
-        cartStore.setState({ cart: [] });
-      }
-    });
-
-    return () => cartFromFireStore();
-  }, []);
+  existedCartState()
 
   return (
     <div className="App container mx-auto my-0 w-1/2 h-screen">

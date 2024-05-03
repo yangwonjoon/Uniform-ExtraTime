@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { CartStore, } from './types';
-import { IProductFormData } from '@/types/types';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase'
 
@@ -9,14 +8,15 @@ export const cartStore = create<CartStore>()(
     persist(
         devtools((set, get) => ({
             cart: [],
-            setCart: (productId: string) => set({ cart: [productId] }),
-            addCart: (productId: string) => {
+            cartLength: () => get().cart.length,
+            setCart: (productId) => set({ cart: [productId] }),
+            addCart: (productId) => {
                 const { cart } = get();
                 const newCart = [...cart, productId];
                 set({ cart: newCart });
                 cartToFirebase(newCart);
             },
-            removeCart: (productId: string) => {
+            removeCart: (productId) => {
                 const { cart } = get();
                 const newCart = cart.filter(product => product !== productId);
                 set({ cart: newCart });
