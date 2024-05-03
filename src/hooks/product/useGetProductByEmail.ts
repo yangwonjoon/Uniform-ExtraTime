@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, where, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
 
@@ -18,7 +18,7 @@ export const useGetProductByEmail = (email: string) => {
 
             const productsRef = collection(db, "products");
             //products db 중 user.email(현재 로그인한 유저 이메일) 선택 쿼리
-            const q = query(productsRef, where("userEmail", "==", email), orderBy("updatedAt", "desc"));
+            const q = query(productsRef, where("userEmail", "==", email), orderBy("createdAt", "desc"));
 
             // const update = query(q, orderBy("createdAt", "desc"))
             try {
