@@ -15,7 +15,7 @@ export const ProductView = ({ product, i }: IProductView) => {
 
     return (
         <div key={i} className="w-9/10 h-48 mx-auto my-5 flex overflow-hidden shadow-lg rounded-lg border border-black">
-            <div className="flex flex-grow basis-3/10 items-center justify-center p-3" >
+            <div className="flex flex-grow basis-3/10 items-center justify-center p-3 w-48" >
                 <img src={product.productImages[0]} alt="메인 이미지" className="object-contain max-h-full" />
             </div>
             <div className="flex flex-grow basis-1/2 flex-col p-3">

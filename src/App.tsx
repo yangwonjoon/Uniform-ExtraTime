@@ -7,6 +7,7 @@ import { Home } from "./page/main/Home";
 import { Team } from "./page/main/Team";
 import { Logo } from "./components/common/Logo";
 import { Sell } from "./page/sell/Sell";
+import { ProductDetail } from "./components/PrductDetail";
 import { Mypage } from "./page/mypage/MyPage";
 import { UpdateProduct } from "./components/product/UpdateProduct";
 import { CreateProduct } from "./components/product/CreateProduct";
@@ -20,13 +21,14 @@ const App = () => {
       <Logo></Logo>
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
+        <Route path="/:productId" element={<ProductDetail></ProductDetail>}></Route>
         <Route path='/team' element={<Team></Team>}></Route>
         <Route path="/sell" element={<Sell></Sell>}></Route>
         <Route path="/sell/createProduct" element={<CreateProduct></CreateProduct>}></Route>
         <Route path="/sell/updateProduct/:productId" element={<UpdateProduct></UpdateProduct>} />
+        <Route path="/mypage" element={<Mypage></Mypage>}></Route>
 
         {/* 로그인, 회원가입 */}
-        <Route path="/mypage" element={<Mypage></Mypage>}></Route>
         <Route path="/signup" element={<SignUp></SignUp>}></Route>
         <Route path="/signup/seller" element={<SellerSignUp></SellerSignUp>}></Route>
         <Route path="/signup/customer" element={<CustomerSignUp></CustomerSignUp>}></Route>

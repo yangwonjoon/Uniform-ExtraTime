@@ -53,10 +53,10 @@ export const Home = () => {
         <div>
             <Nav></Nav>
             <div className="container mx-auto">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-4">
                     {products && (
                         products.map((product, i) => (
-                            <div key={i} className="mx-auto my-5 w-48 h-72 overflow-hidden">
+                            <div key={i} className="mx-auto mb-3 w-48 h-72 overflow-hidden">
                                 <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
                                     <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
                                     {
@@ -66,9 +66,9 @@ export const Home = () => {
                                     }
                                 </div>
                                 <div className="flex flex-col p-3">
-                                    <h1 className="text-sm font-bold">{product.productName}</h1>
-                                    <p className="text-sm mb-2">{product.productDescription}</p>
+                                    <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
                                     <p className="text-sm font-semibold">{product.productPrice}원</p>
+                                    {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
                                 </div>
                             </div>
                         ))

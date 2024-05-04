@@ -4,7 +4,7 @@ import { userStore } from "@/store/userStore";
 export const Nav = () => {
 
     const navigate = useNavigate()
-    const user = userStore(state => state.user)
+    const { user } = userStore()
 
     const clickHandle = (path: string) => {
         if (path === '/sell' && !user.isSeller) {
@@ -13,6 +13,7 @@ export const Nav = () => {
         }
         if (path === '/mypage' && !user.uid) {
             alert('로그인 해주세요!');
+            navigate('/login')
             return;
         }
 
