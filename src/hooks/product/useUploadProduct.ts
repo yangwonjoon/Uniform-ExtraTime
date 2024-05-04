@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 import { IProductFormData } from "@/types/types";
 import { useNavigate } from "react-router-dom";
 import { uploadProductImageFiles } from "@/api/product/uploadProductImageFiles";

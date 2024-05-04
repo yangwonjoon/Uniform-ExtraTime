@@ -1,7 +1,7 @@
 import { validateEmail, validatePassword } from "@/utils/validation";
 import { loginUser } from "@/api/login/loginUser.ts";
 import { useNavigate } from "react-router-dom";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore.ts";
 import { useState } from "react";
 import { ILoginFormData } from "@/types/types.ts";
 import { User } from '../../store/types.ts'

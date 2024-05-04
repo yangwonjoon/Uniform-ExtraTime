@@ -10,8 +10,10 @@ import { Sell } from "./page/sell/Sell";
 import { Mypage } from "./page/mypage/MyPage";
 import { UpdateProduct } from "./components/product/UpdateProduct";
 import { CreateProduct } from "./components/product/CreateProduct";
+import { existedCartState } from "./api/cart/existedCartState";
 
 const App = () => {
+  existedCartState()
 
   return (
     <div className="App container mx-auto my-0 w-1/2 h-screen">

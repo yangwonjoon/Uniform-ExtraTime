@@ -14,6 +14,7 @@ export const UpdateProduct = () => {
         userEmail: '',
         productName: '',
         productPrice: '',
+        productCategory: 0,
         productDescription: '',
         productImages: [],
         createdAt: new Date(),
@@ -40,6 +41,7 @@ export const UpdateProduct = () => {
     return (
         <ProductForm
             productFormData={productFormData}
+            setProductFormData={setProductFormData}
             inputChange={inputChange}
             showImages={showImages}
             handleAddImages={handleAddImages}

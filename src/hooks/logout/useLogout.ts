@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
-import { userStore } from "@/store/store";
+import { userStore } from "@/store/userStore";
 import { useNavigate } from "react-router-dom";
 
 export const useLogout = () => {
