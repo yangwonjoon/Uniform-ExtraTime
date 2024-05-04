@@ -12,9 +12,13 @@ export const cartStore = create<CartStore>()(
             setCart: (productId) => set({ cart: [productId] }),
             addCart: (productId) => {
                 const { cart } = get();
-                const newCart = [...cart, productId];
-                set({ cart: newCart });
-                cartToFirebase(newCart);
+                if (!cart.includes(productId)) {
+                    const newCart = [...cart, productId];
+                    set({ cart: newCart });
+                    cartToFirebase(newCart);
+                } else {
+                    console.log("카트에 상품이 이미 있습니다.")
+                }
             },
             removeCart: (productId) => {
                 const { cart } = get();

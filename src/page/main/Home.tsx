@@ -56,21 +56,19 @@ export const Home = () => {
                 <div className="grid grid-cols-3 gap-2">
                     {products && (
                         products.map((product, i) => (
-                            <div key={i} className="mx-auto my-5 w-48">
-                                <div className="flex items-center justify-center p-3 h-48 shadow-lg rounded-lg border border-black relative">
-                                    <div className="w-full h-full ">
-                                        <img src={product.productImages[0]} alt="메인 이미지" className="object-contain w-full h-full" />
-                                        {
-                                            product.productId && cart.includes(product.productId) ?
-                                                <FontAwesomeIcon icon={filledBookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
-                                                : <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
-                                        }
-                                    </div>
+                            <div key={i} className="mx-auto my-5 w-48 h-72 overflow-hidden">
+                                <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
+                                    <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
+                                    {
+                                        product.productId && cart.includes(product.productId) ?
+                                            <FontAwesomeIcon icon={filledBookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
+                                            : <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
+                                    }
                                 </div>
                                 <div className="flex flex-col p-3">
-                                    <h1 className="font-bold">{product.productName}</h1>
-                                    <p className="mb-2">{product.productDescription}</p>
-                                    <p className="font-semibold text-md">{product.productId}원</p>
+                                    <h1 className="text-sm font-bold">{product.productName}</h1>
+                                    <p className="text-sm mb-2">{product.productDescription}</p>
+                                    <p className="text-sm font-semibold">{product.productPrice}원</p>
                                 </div>
                             </div>
                         ))
