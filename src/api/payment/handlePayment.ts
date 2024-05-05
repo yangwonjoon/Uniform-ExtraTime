@@ -3,6 +3,7 @@ import { db } from "@/firebase";
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { IProductFormData } from '@/types/types';
 import { User } from '@/store/types';
+import { useNavigate } from 'react-router-dom';
 
 interface IPaymentFormProps {
     name: string;
@@ -13,6 +14,7 @@ interface IPaymentFormProps {
 }
 
 export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormProps) => {
+    const navigate = useNavigate()
     if (!window.IMP) return;
 
     const { IMP } = window;
@@ -28,7 +30,7 @@ export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormP
         buyer_tel: tel, // 구매자 전화번호
         buyer_email: email, // 구매자 이메일
     };
-    console.log(product)
+
     IMP.request_pay(data, async (response: RequestPayResponse) => {
 
         const { success, error_msg, imp_uid } = response;
@@ -55,6 +57,7 @@ export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormP
                     console.log("Product updated to sold: ", product.productId);
                 }
                 alert("결제 성공: 주문이 완료되었습니다.");
+                navigate('/mypage')
             } catch (error) {
                 console.error("Order creation failed:", error);
             }

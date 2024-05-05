@@ -93,27 +93,30 @@ export const ProductDetail = () => {
                 <h1 className="text-lg font-bold mb-5">{product?.productName}</h1>
                 <h2 className="text-lg font-bold">{product?.productPrice}원</h2>
                 <p className="mb-10">{product?.productDescription}</p>
-                <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    {/* <AlertDialogTrigger asChild>
-                        <Button variant="outline" onClick={handleOpen}>구매하기</Button>
-                    </AlertDialogTrigger> */}
-                    <button onClick={handleOpen} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">주문하기</button>
-                    <AlertDialogContent>
-                        <AlertDialogHeader className="mb-5">
-                            <AlertDialogTitle>주문 정보</AlertDialogTitle>
-                        </AlertDialogHeader>
-                        <Input type="NAME" name="name" placeholder="NAME" className="w-full h-12 mb-4" onChange={inputChange} />
-                        <Input type="TEL" name="tel" placeholder="PHONE" className="w-full h-12 mb-4" onChange={inputChange} />
-                        <Input type="EMAIL" name="email" placeholder="EMAIL" className="w-full h-12 mb-4" onChange={inputChange} />
-                        <div className="text-center pt-5">
-                            {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
-                        </div>
-                        <AlertDialogFooter>
-                            <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
-                            <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                {
+                    !product?.isSell
+                        ? <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                            <button onClick={handleOpen} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">주문하기</button>
+                            <AlertDialogContent>
+                                <AlertDialogHeader className="mb-5">
+                                    <AlertDialogTitle>주문 정보</AlertDialogTitle>
+                                </AlertDialogHeader>
+                                <Input type="NAME" name="name" placeholder="NAME" className="w-full h-12 mb-4" onChange={inputChange} />
+                                <Input type="TEL" name="tel" placeholder="PHONE" className="w-full h-12 mb-4" onChange={inputChange} />
+                                <Input type="EMAIL" name="email" placeholder="EMAIL" className="w-full h-12 mb-4" onChange={inputChange} />
+                                <div className="text-center pt-5">
+                                    {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
+                                </div>
+                                <AlertDialogFooter>
+                                    <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
+                                    <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                        : <div>판매 완료!</div>
+                }
+
+
             </div>
         </div>
     );

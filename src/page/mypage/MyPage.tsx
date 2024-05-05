@@ -114,8 +114,8 @@ export const Mypage = () => {
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        {cartProducts.length > 3 && <CarouselPrevious />}
-                        {cartProducts.length > 3 && <CarouselNext />}
+                        {orderProducts.length > 3 && <CarouselPrevious />}
+                        {orderProducts.length > 3 && <CarouselNext />}
                     </Carousel>
                 </div>
                 <div className="w-full p-3">
