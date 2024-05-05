@@ -4,9 +4,10 @@ interface IPaymentForm {
     name: string;
     tel: string;
     email: string;
+    productName?: string;
 }
 
-export const handlePayment = ({ name, tel, email }: IPaymentForm) => {
+export const handlePayment = ({ name, tel, email, productName }: IPaymentForm) => {
     if (!window.IMP) return;
 
     const { IMP } = window;
@@ -17,10 +18,10 @@ export const handlePayment = ({ name, tel, email }: IPaymentForm) => {
         pay_method: "card", // 결제수단
         merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
         amount: 1, // 결제금액
-        name: '홍길동', // 주문명
-        buyer_name: 'name', // 구매자 이름
-        buyer_tel: 'tel', // 구매자 전화번호
-        buyer_email: 'email', // 구매자 이메일
+        name: productName, // 주문명
+        buyer_name: name, // 구매자 이름
+        buyer_tel: tel, // 구매자 전화번호
+        buyer_email: email, // 구매자 이메일
     };
     IMP.request_pay(data, callback);
 }

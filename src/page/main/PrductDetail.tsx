@@ -2,13 +2,12 @@ import { useParams } from "react-router-dom";
 import { useGetProductFormData } from "@/hooks/product/useGetProductById";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { handlePayment } from "@/api/handlePayment";
-import { useState } from "react";
+import { handlePayment } from "@/api/payment/handlePayment";
+import { useState, useEffect } from "react";
 import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { validateEmail, validateName, validateTel } from "@/utils/validation";
-
 
 export const ProductDetail = () => {
     const { productId } = useParams();
@@ -18,8 +17,27 @@ export const ProductDetail = () => {
     const [paymentForm, setPaymentForm] = useState({
         name: '',
         tel: '',
-        email: ''
+        email: '',
+        productName: product?.productName
     })
+
+    useEffect(() => {
+        if (product) {
+            setPaymentForm(prevForm => ({
+                ...prevForm,
+                productName: product.productName
+            }));
+        }
+    }, [product]);
+
+    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPaymentForm({ ...paymentForm, [e.target.name]: e.target.value })
+    }
+
+    const handleClose = () => {
+        setIsDialogOpen(false);
+        setPaymentForm({ name: '', tel: '', email: '', productName: product?.productName });
+    };
 
     const handleSubmit = () => {
         if (!validateName(paymentForm.name)) {
@@ -34,15 +52,14 @@ export const ProductDetail = () => {
             setMsg("email 형식에 맞춰 주세요");
             return;
         }
+        setIsDialogOpen(false);
+
+        //해당 product 정보 삭제?
+
+
         handlePayment(paymentForm);
     };
-    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPaymentForm({ ...paymentForm, [e.target.name]: e.target.value })
-    }
-    const handleClose = () => {
-        setIsDialogOpen(false);
-        setPaymentForm({ name: '', tel: '', email: '' });
-    };
+
 
     return (
         <div className="flex w-full h-full pt-10">
@@ -82,6 +99,7 @@ export const ProductDetail = () => {
                             {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
                         </div>
                         <AlertDialogFooter>
+                            {/* <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction> */}
                             <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
                             <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
                         </AlertDialogFooter>
