@@ -72,12 +72,12 @@ export const Team = () => {
             </div>
             <div className="text-right mt-4">
                 {teams.length > 4 && (
-                    <button onClick={handleToggle}>
+                    <button className='text-sm' onClick={handleToggle}>
                         {expanded ? '숨기기' : '더보기'}
                     </button>
                 )}
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 mt-5">
                 {products && (
                     products.map((product, i) => (
                         <div key={i} className="mx-auto mb-3 w-48 h-72 overflow-hidden">
