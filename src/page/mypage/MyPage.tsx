@@ -11,17 +11,20 @@ import { IProductFormData } from "@/types/types";
 import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useNavigate } from "react-router-dom";
-import { useLogout } from "@/hooks/logout/useLogout";
+import { collection, query, where, getDocs } from "firebase/firestore";
+// import { useLogout } from "@/hooks/logout/useLogout";
 
 export const Mypage = () => {
 
     const { user } = userStore()
     const { cart, addCart, removeCart } = cartStore()
-    const [products, setProducts] = useState<IProductFormData[]>([])
-    // const navigate = useNavigate()
+    const [cartProducts, setCartProducts] = useState<IProductFormData[]>([])
+    const [orderProducts, setOrderProducts] = useState<IProductFormData[]>([])
+    const navigate = useNavigate()
     // const { logout } = useLogout()
 
-    const handleToggleCart = (productId: string | undefined) => {
+    const handleToggleCart = (productId: string | undefined, e: React.MouseEvent) => {
+        e.stopPropagation();
         if (!productId) {
             alert('제품 정보가 올바르지 않습니다.');
             return;
@@ -38,66 +41,71 @@ export const Mypage = () => {
     }
 
     useEffect(() => {
-        const productsFromCart = async () => {
-            if (user.uid) {
-                const productArr = [];
+        const productFromCart = async () => {
+            if (!user.uid) return;
+            const productArr = [];
 
-                for (const productId of cart) {
-                    const docRef = doc(db, "products", productId);
-                    const docSnap = await getDoc(docRef);
-
-                    if (docSnap.exists()) {
-                        productArr.push({ ...docSnap.data(), productId: docSnap.id } as IProductFormData);
-                    } else {
-                        console.log("product 정보 없음");
-                    }
+            for (const productId of cart) {
+                const docRef = doc(db, "products", productId);
+                const docSnap = await getDoc(docRef);
+                console.log(docSnap.data())
+                if (docSnap.exists() && !docSnap.data().isSell) {
+                    productArr.push({ ...docSnap.data(), productId: docSnap.id } as IProductFormData);
+                } else {
+                    console.log("cart product 정보 없음");
                 }
-                setProducts(productArr)
-            } else {
-                console.log('사용자 정보 찾을 수 없음')
             }
+            setCartProducts(productArr)
+
         }
-        productsFromCart()
+        productFromCart()
     }, [cart])
+
+    useEffect(() => {
+        const productFromOrders = async () => {
+            if (!user.uid) return;
+
+            const ordersRef = collection(db, "orders");
+            const q = query(ordersRef, where("buyerId", "==", user.email));
+            const ordersQuerySnapshot = await getDocs(q);
+
+            const productIds = ordersQuerySnapshot.docs.map(doc => doc.data().productId);
+            const productDetails = [];
+
+            for (const id of productIds) {
+                const productRef = doc(db, "products", id);
+                const productSnap = await getDoc(productRef);
+
+                if (productSnap.exists()) {
+                    productDetails.push({ ...productSnap.data(), productId: id } as IProductFormData);
+                }
+            }
+            setOrderProducts(productDetails);
+        }
+        productFromOrders()
+    }, [])
 
     return (
         <>
             <div>
                 <Nav></Nav>
-                {/* <div className="my-10">
-                    {
-                        !user.uid && <><div><button onClick={() => navigate('/signup')}>회원가입</button></div>
-                            <div><button onClick={() => navigate('/login')}>로그인</button></div></>
-                    }
-                    {
-                        user.uid && <><div><button onClick={logout}>로그아웃</button></div></>
-                    }
-                </div> */}
-                <div className="w-full h-96 border border-black p-3">
+                <div className="w-full p-3">
                     <h1 className="text-lg font-bold mb-5">구매 내역</h1>
-                </div>
-                <div className="w-full h-96 border border-black p-3">
-                    <h1 className="text-lg font-bold mb-5">관심 상품</h1>
                     <Carousel opts={{ align: "start", }} className="w-full">
                         <CarouselContent>
-                            {products.map((product, index) => (
+                            {orderProducts.map((product, index) => (
                                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                     <div className="p-1">
                                         <Card>
                                             <CardContent className="flex aspect-square items-center justify-center p-6 relative">
-                                                <div key={index} className="mx-auto my-5 w-48 h-72 overflow-hidden">
+                                                <div className="mx-auto mb-3 w-48 h-72 overflow-hidden" onClick={() => navigate(`/${product.productId}`)}>
                                                     <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
                                                         <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
-                                                        {
-                                                            product.productId && cart.includes(product.productId) ?
-                                                                <FontAwesomeIcon icon={filledBookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
-                                                                : <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={() => handleToggleCart(product.productId)} />
-                                                        }
                                                     </div>
                                                     <div className="flex flex-col p-3">
-                                                        <h1 className="text-sm font-bold">{product.productName}</h1>
-                                                        <p className="text-sm mb-2">{product.productDescription}</p>
+                                                        <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
                                                         <p className="text-sm font-semibold">{product.productPrice}원</p>
+                                                        {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
                                                     </div>
                                                 </div>
                                             </CardContent>
@@ -106,8 +114,42 @@ export const Mypage = () => {
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        {products.length > 3 && <CarouselPrevious />}
-                        {products.length > 3 && <CarouselNext />}
+                        {cartProducts.length > 3 && <CarouselPrevious />}
+                        {cartProducts.length > 3 && <CarouselNext />}
+                    </Carousel>
+                </div>
+                <div className="w-full p-3">
+                    <h1 className="text-lg font-bold mb-5">관심 상품</h1>
+                    <Carousel opts={{ align: "start", }} className="w-full">
+                        <CarouselContent>
+                            {cartProducts.map((product, index) => (
+                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-1">
+                                        <Card>
+                                            <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+                                                <div className="mx-auto mb-3 w-48 h-72 overflow-hidden" onClick={() => navigate(`/${product.productId}`)}>
+                                                    <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
+                                                        <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
+                                                        {
+                                                            product.productId && cart.includes(product.productId) ?
+                                                                <FontAwesomeIcon icon={filledBookmark} className="absolute bottom-0 right-0 m-2" onClick={(e) => handleToggleCart(product.productId, e)} />
+                                                                : <FontAwesomeIcon icon={bookmark} className="absolute bottom-0 right-0 m-2" onClick={(e) => handleToggleCart(product.productId, e)} />
+                                                        }
+                                                    </div>
+                                                    <div className="flex flex-col p-3">
+                                                        <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
+                                                        <p className="text-sm font-semibold">{product.productPrice}원</p>
+                                                        {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
+                                                    </div>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        {cartProducts.length > 3 && <CarouselPrevious />}
+                        {cartProducts.length > 3 && <CarouselNext />}
                     </Carousel>
                 </div>
             </div >

@@ -26,6 +26,7 @@ export interface IProductFormData {
     productDescription: string,
     productImages: string[],
     productCategory?: number,
+    isSell: boolean
     createdAt: Date,
     updatedAt: Date
 }

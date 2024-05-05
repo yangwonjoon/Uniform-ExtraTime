@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as bookmark } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as filledBookmark } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
 import { cartStore } from "@/store/cartStore";
@@ -19,7 +19,7 @@ export const Home = () => {
     useEffect(() => {
         const readProducts = async () => {
             const productsRef = collection(db, "products");
-            const q = query(productsRef, orderBy("createdAt", "desc"));
+            const q = query(productsRef, where("isSell", "==", false), orderBy("createdAt", "desc"));
             try {
                 const querySnapshot = await getDocs(q);
                 const fetchedProducts = querySnapshot.docs.map(doc => ({

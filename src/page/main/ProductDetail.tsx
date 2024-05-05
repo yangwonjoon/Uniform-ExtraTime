@@ -8,9 +8,11 @@ import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { validateEmail, validateName, validateTel } from "@/utils/validation";
+import { userStore } from "@/store/userStore";
 
 export const ProductDetail = () => {
     const { productId } = useParams();
+    const { user } = userStore()
     const product = useGetProductFormData(productId as string);
     const [msg, setMsg] = useState('')
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -18,14 +20,15 @@ export const ProductDetail = () => {
         name: '',
         tel: '',
         email: '',
-        productName: product?.productName
+        product: product,
+        user: user
     })
 
     useEffect(() => {
         if (product) {
             setPaymentForm(prevForm => ({
                 ...prevForm,
-                productName: product.productName
+                product: product
             }));
         }
     }, [product]);
@@ -34,9 +37,19 @@ export const ProductDetail = () => {
         setPaymentForm({ ...paymentForm, [e.target.name]: e.target.value })
     }
 
+    const handleOpen = () => {
+        if (!user.email) {
+            alert("구매자 아이디 로그인이 필요합니다.");
+        } else if (user.isSeller) {
+            alert("구매자 아이디 로그인이 필요합니다.");
+        } else {
+            setIsDialogOpen(true);
+        }
+    };
+
     const handleClose = () => {
         setIsDialogOpen(false);
-        setPaymentForm({ name: '', tel: '', email: '', productName: product?.productName });
+        setPaymentForm({ name: '', tel: '', email: '', user: user, product: product });
     };
 
     const handleSubmit = () => {
@@ -53,10 +66,6 @@ export const ProductDetail = () => {
             return;
         }
         setIsDialogOpen(false);
-
-        //해당 product 정보 삭제?
-
-
         handlePayment(paymentForm);
     };
 
@@ -85,9 +94,10 @@ export const ProductDetail = () => {
                 <h2 className="text-lg font-bold">{product?.productPrice}원</h2>
                 <p className="mb-10">{product?.productDescription}</p>
                 <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="outline" onClick={() => setIsDialogOpen(true)}>구매하기</Button>
-                    </AlertDialogTrigger>
+                    {/* <AlertDialogTrigger asChild>
+                        <Button variant="outline" onClick={handleOpen}>구매하기</Button>
+                    </AlertDialogTrigger> */}
+                    <button onClick={handleOpen} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">주문하기</button>
                     <AlertDialogContent>
                         <AlertDialogHeader className="mb-5">
                             <AlertDialogTitle>주문 정보</AlertDialogTitle>
@@ -99,7 +109,6 @@ export const ProductDetail = () => {
                             {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
                         </div>
                         <AlertDialogFooter>
-                            {/* <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction> */}
                             <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
                             <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
                         </AlertDialogFooter>

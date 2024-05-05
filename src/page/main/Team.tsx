@@ -24,7 +24,7 @@ export const Team = () => {
     useEffect(() => {
         const readTeamProducts = async () => {
             const productsRef = collection(db, "products");
-            const q = query(productsRef, where("productCategory", "==", teamSelected), orderBy("createdAt", "desc"));
+            const q = query(productsRef, where("isSell", "==", false), where("productCategory", "==", teamSelected), orderBy("createdAt", "desc"));
             try {
                 const querySnapshot = await getDocs(q);
                 const fetchedProducts = querySnapshot.docs.map(doc => ({
