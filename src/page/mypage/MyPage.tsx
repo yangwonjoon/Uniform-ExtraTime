@@ -20,6 +20,7 @@ export const Mypage = () => {
     const { cart, addCart, removeCart } = cartStore()
     const [cartProducts, setCartProducts] = useState<IProductFormData[]>([])
     const [orderProducts, setOrderProducts] = useState<IProductFormData[]>([])
+    const [sellOrderProducts, setSellOrderProducts] = useState<IProductFormData[]>([])
     const navigate = useNavigate()
     // const { logout } = useLogout()
 
@@ -85,39 +86,102 @@ export const Mypage = () => {
         productFromOrders()
     }, [])
 
+    useEffect(() => {
+        const productFromSellerId = async () => {
+            if (!user.uid) return;
+
+            const ordersRef = collection(db, "orders");
+            const q = query(ordersRef, where("sellerId", "==", user.email));
+            const ordersQuerySnapshot = await getDocs(q);
+
+            const productIds = ordersQuerySnapshot.docs.map(doc => doc.data().productId);
+            const productDetails = [];
+
+            for (const id of productIds) {
+                const productRef = doc(db, "products", id);
+                const productSnap = await getDoc(productRef);
+
+                if (productSnap.exists()) {
+                    productDetails.push({ ...productSnap.data(), productId: id } as IProductFormData);
+                }
+            }
+            console.log(productDetails)
+            setSellOrderProducts(productDetails);
+        }
+        productFromSellerId()
+    }, [])
+
+
     return (
-        <>
-            <div>
-                <Nav></Nav>
-                <div className="w-full p-3">
-                    <h1 className="text-lg font-bold mb-5">구매 내역</h1>
-                    <Carousel opts={{ align: "start", }} className="w-full">
-                        <CarouselContent>
-                            {orderProducts.map((product, index) => (
-                                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-1">
-                                        <Card>
-                                            <CardContent className="flex aspect-square items-center justify-center p-6 relative">
-                                                <div className="mx-auto mb-3 w-48 h-72 overflow-hidden" onClick={() => navigate(`/${product.productId}`)}>
-                                                    <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
-                                                        <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
+        <div>
+            <Nav></Nav>
+
+            {
+                user.isSeller
+                    ?
+                    <div className="w-full p-3">
+                        <h1 className="text-lg font-bold mb-5">판매 내역</h1>
+                        <Carousel opts={{ align: "start", }} className="w-full">
+                            <CarouselContent>
+                                {sellOrderProducts.map((product, index) => (
+                                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                        <div className="p-1">
+                                            <Card>
+                                                <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+                                                    <div className="mx-auto mb-3 w-48 h-72 overflow-hidden" onClick={() => navigate(`/${product.productId}`)}>
+                                                        <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
+                                                            <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
+                                                        </div>
+                                                        <div className="flex flex-col p-3">
+                                                            <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
+                                                            <p className="text-sm font-semibold">{product.productPrice}원</p>
+                                                            {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
+                                                        </div>
                                                     </div>
-                                                    <div className="flex flex-col p-3">
-                                                        <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
-                                                        <p className="text-sm font-semibold">{product.productPrice}원</p>
-                                                        {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            {orderProducts.length > 3 && <CarouselPrevious />}
+                            {orderProducts.length > 3 && <CarouselNext />}
+                        </Carousel>
+                    </div>
+                    :
+                    <div className="w-full p-3">
+                        <h1 className="text-lg font-bold mb-5">구매 내역</h1>
+                        <Carousel opts={{ align: "start", }} className="w-full">
+                            <CarouselContent>
+                                {orderProducts.map((product, index) => (
+                                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                        <div className="p-1">
+                                            <Card>
+                                                <CardContent className="flex aspect-square items-center justify-center p-6 relative">
+                                                    <div className="mx-auto mb-3 w-48 h-72 overflow-hidden" onClick={() => navigate(`/${product.productId}`)}>
+                                                        <div className="flex items-center justify-center h-48 shadow-lg rounded-lg border border-black relative">
+                                                            <img src={product.productImages[0]} alt="메인 이미지" className="object-contain h-full" />
+                                                        </div>
+                                                        <div className="flex flex-col p-3">
+                                                            <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
+                                                            <p className="text-sm font-semibold">{product.productPrice}원</p>
+                                                            {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        {orderProducts.length > 3 && <CarouselPrevious />}
-                        {orderProducts.length > 3 && <CarouselNext />}
-                    </Carousel>
-                </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            {orderProducts.length > 3 && <CarouselPrevious />}
+                            {orderProducts.length > 3 && <CarouselNext />}
+                        </Carousel>
+                    </div>
+            }
+
+            {
+                !user.isSeller &&
                 <div className="w-full p-3">
                     <h1 className="text-lg font-bold mb-5">관심 상품</h1>
                     <Carousel opts={{ align: "start", }} className="w-full">
@@ -152,7 +216,7 @@ export const Mypage = () => {
                         {cartProducts.length > 3 && <CarouselNext />}
                     </Carousel>
                 </div>
-            </div >
-        </>
+            }
+        </div >
     )
 }
