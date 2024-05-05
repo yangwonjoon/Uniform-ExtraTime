@@ -22,3 +22,8 @@ export const validateProductPrice = (price: string) => {
 export const validateProductDescription = (description: string) => {
     return description.trim().length > 10;
 };
+
+export const validateTel = (phone: string) => {
+    const regex = /^010-\d{4}-\d{4}$/;
+    return regex.test(phone);
+};
