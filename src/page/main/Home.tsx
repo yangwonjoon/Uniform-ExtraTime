@@ -84,6 +84,8 @@ export const Home = () => {
 }
 
 
+
+
 {/* <div className="flex justify-between mt-4">
                                             <button className="px-4 py-2 bg-green-500 text-white rounded-md">구매하기</button>
                                             <button className="px-4 py-2 bg-yellow-500 text-white rounded-md">장바구니</button>
