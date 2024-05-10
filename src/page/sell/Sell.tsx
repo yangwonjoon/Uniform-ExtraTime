@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Nav } from "@/components/common/Nav";
-import { useGetProductByEmail } from "@/hooks/product/useGetProductByEmail";
+import { useGetProductByEmail } from "@/hooks/sell/useGetProductByEmail";
 import { userStore } from "@/store/userStore";
-import { ProductView } from "@/components/product/ProductView";
+import { SellerProductView } from "@/components/sell/SellerProductView";
 
 export const Sell = () => {
 
@@ -16,7 +16,7 @@ export const Sell = () => {
             <button onClick={() => navigate('/sell/createProduct')}>상품등록</button>
             {products && (
                 products.map((product, i) => (
-                    <ProductView product={product} i={i} key={i}></ProductView>
+                    <SellerProductView product={product} key={i}></SellerProductView>
                 )))
             }
         </>

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { userStore } from "@/store/userStore";
 import { IProductFormData } from "@/types/types";
 import { useNavigate } from "react-router-dom";
-import { uploadProductImageFiles } from "@/api/product/uploadProductImageFiles";
-import { deleteProductImage } from "@/api/product/deleteProductImage";
-import { uploadProductFormData } from "@/api/product/uploadProductFormData";
+import { uploadProductImageFiles } from "@/api/sell/uploadProductImageFiles";
+import { deleteProductImage } from "@/api/sell/deleteProductImage";
+import { uploadProductFormData } from "@/api/sell/uploadProductFormData";
 import { Dispatch, SetStateAction } from 'react';
 
 interface Props {

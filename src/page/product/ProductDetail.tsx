@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useGetProductFormData } from "@/hooks/product/useGetProductById";
+import { useGetProductFormData } from "@/hooks/sell/useGetProductById";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { handlePayment } from "@/api/payment/handlePayment";
 import { useState, useEffect } from "react";
-import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { Input } from "@/components/ui/input";
 import { validateEmail, validateName, validateTel } from "@/utils/validation";
 import { userStore } from "@/store/userStore";

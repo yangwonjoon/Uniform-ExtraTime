@@ -3,14 +3,14 @@ import { SellerSignUp } from "./page/signup/SellerSignUp";
 import { CustomerSignUp } from "./page/signup/CustomerSignUp"
 import { Login } from "./page/login/Login";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./page/main/Home";
-import { Team } from "./page/main/Team";
+import { Home } from "./page/product/Home";
+import { Team } from "./page/product/Team";
 import { Logo } from "./components/common/Logo";
 import { Sell } from "./page/sell/Sell";
-import { ProductDetail } from "./page/main/ProductDetail";
+import { ProductDetail } from "./page/product/ProductDetail";
 import { Mypage } from "./page/mypage/MyPage";
-import { UpdateProduct } from "./components/product/UpdateProduct";
-import { CreateProduct } from "./components/product/CreateProduct";
+import { UpdateProduct } from "./page/sell/UpdateProduct";
+import { CreateProduct } from "./page/sell/CreateProduct";
 import { existedCartState } from "./api/cart/existedCartState";
 
 const App = () => {

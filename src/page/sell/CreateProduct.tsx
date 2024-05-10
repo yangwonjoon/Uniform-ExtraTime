@@ -1,6 +1,6 @@
-import { useProductForm } from "@/hooks/product/useProductForm";
-import { useUploadProduct } from "@/hooks/product/useUploadProduct";
-import { ProductForm } from "@/components/product/ProductForm";
+import { useProductForm } from "@/hooks/sell/useProductForm";
+import { useUploadProduct } from "@/hooks/sell/useUploadProduct";
+import { ProductUploadForm } from "@/components/sell/SellerProductForm";
 import { userStore } from "@/store/userStore";
 import { useState } from "react";
 
@@ -16,13 +16,14 @@ export const CreateProduct = () => {
         productDescription: '',
         productImages: [],
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        isSell: false
     }, setMsg);
     console.log(productFormData)
     const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg, setProductFormData });
 
     return (
-        <ProductForm
+        <ProductUploadForm
             productFormData={productFormData}
             setProductFormData={setProductFormData}
             inputChange={inputChange}

@@ -1,6 +1,6 @@
 import { RequestPayParams, RequestPayResponse } from 'iamport-typings';
 import { db } from "@/firebase";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { IProductFormData } from '@/types/types';
 import { User } from '@/store/types';
 import { useNavigate } from 'react-router-dom';
@@ -52,8 +52,8 @@ export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormP
                 console.log("Order created with ID: ", docRef.id);
 
                 if (product?.productId) {
-                    const productRef = doc(db, "products", product.productId); // 제품 문서 참조 생성
-                    await updateDoc(productRef, { isSell: true }); // isSell 필드를 true로 설정
+                    const productRef = doc(db, "products", product.productId);
+                    await updateDoc(productRef, { isSell: true });
                     console.log("Product updated to sold: ", product.productId);
                 }
                 alert("결제 성공: 주문이 완료되었습니다.");

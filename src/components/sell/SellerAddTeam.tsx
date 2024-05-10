@@ -15,7 +15,7 @@ interface ITeamModal {
     setProductFormData: Dispatch<SetStateAction<IProductFormData>>;
 }
 
-export const TeamModal = ({ productFormData, setProductFormData }: ITeamModal) => {
+export const SellerAddTeam = ({ productFormData, setProductFormData }: ITeamModal) => {
     const [team, setTeam] = useState(0)
     const [msg, setMsg] = useState('')
 

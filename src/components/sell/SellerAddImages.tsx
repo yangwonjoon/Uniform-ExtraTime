@@ -14,7 +14,7 @@ interface InputImages {
     handleAddImages: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const InputImages = ({ showImages, handleDeleteImage, handleAddImages }: InputImages) => {
+export const SellerAddImages = ({ showImages, handleDeleteImage, handleAddImages }: InputImages) => {
     const IMAGES_LENGTH = showImages.length
     return (
         <>

@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useProductForm } from "@/hooks/product/useProductForm";
-import { useGetProductFormData } from "@/hooks/product/useGetProductById";
-import { useUploadProduct } from "@/hooks/product/useUploadProduct";
-import { ProductForm } from "@/components/product/ProductForm";
+import { useProductForm } from "@/hooks/sell/useProductForm";
+import { useGetProductFormData } from "@/hooks/sell/useGetProductById";
+import { useUploadProduct } from "@/hooks/sell/useUploadProduct";
+import { ProductUploadForm } from "@/components/sell/SellerProductForm";
 
 export const UpdateProduct = () => {
 
@@ -18,7 +18,8 @@ export const UpdateProduct = () => {
         productDescription: '',
         productImages: [],
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        isSell: false
     }, setMsg);
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export const UpdateProduct = () => {
     const { showImages, handleAddImages, handleDeleteImage, handleSubmit } = useUploadProduct({ productFormData, validateProductForm, setMsg, setProductFormData });
 
     return (
-        <ProductForm
+        <ProductUploadForm
             productFormData={productFormData}
             setProductFormData={setProductFormData}
             inputChange={inputChange}
