@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Nav } from "../../components/common/Nav";
 import { teams } from "@/constants/team";
 import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db } from "@/firebase";
@@ -35,7 +34,6 @@ export const Team = () => {
 
     return (
         <div>
-            <Nav />
             <div className="container mx-auto grid grid-cols-4 gap-4 mt-10">
                 {teams.slice(0, expanded ? teams.length : 4).map((team, index) => (
                     <div key={index} className="text-center">

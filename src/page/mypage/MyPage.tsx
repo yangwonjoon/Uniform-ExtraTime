@@ -114,8 +114,6 @@ export const Mypage = () => {
 
     return (
         <div>
-            <Nav></Nav>
-
             {
                 user.isSeller
                     ?

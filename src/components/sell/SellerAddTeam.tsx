@@ -47,7 +47,7 @@ export const SellerAddTeam = ({ productFormData, setProductFormData }: ITeamModa
                 <DialogFooter className="flex sm:justify-center items-center w-full">
                     {msg && <>
                         <DialogDescription>
-                            {msg}를 선택하셨습니다
+                            {msg}
                         </DialogDescription>
                     </>}
                 </DialogFooter>

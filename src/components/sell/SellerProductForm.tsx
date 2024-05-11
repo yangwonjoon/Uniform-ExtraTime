@@ -21,7 +21,6 @@ interface IProductFormProps {
 export const ProductUploadForm = ({ productFormData, setProductFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit, msg }: IProductFormProps) => {
     return (
         <>
-            <Nav />
             <div className="pt-10 flex flex-col items-center min-h-screen">
                 <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
                     <Label htmlFor="name" className="font-bold">상품명</Label>

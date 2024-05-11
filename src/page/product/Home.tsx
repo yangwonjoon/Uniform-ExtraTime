@@ -28,7 +28,6 @@ export const Home = () => {
 
     return (
         <div>
-            <Nav></Nav>
             <div className="container mx-auto">
                 <div className="grid grid-cols-3 gap-4 mt-5">
                     {products && (
