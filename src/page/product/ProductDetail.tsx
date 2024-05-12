@@ -8,11 +8,40 @@ import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, 
 import { Input } from "@/components/ui/input";
 import { validateEmail, validateName, validateTel } from "@/utils/validation";
 import { userStore } from "@/store/userStore";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import { IProductFormData } from "@/types/types";
+
+const fetchProductData = async (productId: string) => {
+    const docRef = doc(db, "products", productId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return {
+            productId: docSnap.id,
+            ...docSnap.data() as IProductFormData
+        };
+    } else {
+        throw new Error("Product not found");
+    }
+};
 
 export const ProductDetail = () => {
-    const { productId } = useParams();
     const { user } = userStore()
-    const product = useGetProductFormData(productId as string);
+    // const { productId } = useParams();
+    // const product = useGetProductFormData(productId as string);
+
+    const { productId } = useParams();
+    const queryClient = useQueryClient();
+    const { data: product, isLoading, error } = useQuery({
+        queryKey: ['product', productId],
+        queryFn: () => fetchProductData(productId as string),
+        initialData: () => queryClient.getQueryData(['product', productId]),
+        staleTime: 5000
+    });
+
     const [msg, setMsg] = useState('')
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [paymentForm, setPaymentForm] = useState({
@@ -67,6 +96,9 @@ export const ProductDetail = () => {
         setIsDialogOpen(false);
         handlePayment(paymentForm);
     };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error fetching product details.</div>;
 
     return (
         <div className="flex w-full h-full pt-10">

@@ -48,7 +48,7 @@ export const Mypage = () => {
             for (const productId of cart) {
                 const docRef = doc(db, "products", productId);
                 const docSnap = await getDoc(docRef);
-                console.log(docSnap.data())
+
                 if (docSnap.exists() && !docSnap.data().isSell) {
                     productArr.push({ ...docSnap.data(), productId: docSnap.id } as IProductFormData);
                 } else {
