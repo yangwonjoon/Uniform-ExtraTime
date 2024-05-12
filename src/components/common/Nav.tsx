@@ -13,6 +13,7 @@ export const Nav = () => {
     const clickHandle = (path: string) => {
         if (path === '/sell' && !user.isSeller) {
             alert('판매자만 접근 가능');
+            navigate('/login');
             return;
         }
         if (path === '/mypage' && !user.uid) {

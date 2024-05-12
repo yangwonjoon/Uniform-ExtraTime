@@ -1,3 +1,4 @@
+import { Footer } from "@/components/common/Footer"
 import { Logo } from "@/components/common/Logo"
 import { Nav } from "@/components/common/Nav"
 import { Outlet } from "react-router-dom"
@@ -9,6 +10,7 @@ export const Layout = () => {
             <Logo></Logo>
             <Nav></Nav>
             <Outlet></Outlet>
+            <Footer></Footer>
         </div>
     )
 }

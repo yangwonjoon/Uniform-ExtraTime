@@ -4,6 +4,9 @@ import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from '@/types/types';
 import { ProductView } from '@/components/product/ProductView';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { faCircleDown } from '@fortawesome/free-solid-svg-icons';
 
 export const Team = () => {
     const [products, setProducts] = useState<IProductFormData[]>([]);
@@ -43,19 +46,25 @@ export const Team = () => {
                     </div>
                 ))}
             </div>
-            <div className="text-right mt-4">
+            <div className="text-right mt-4 mr-4">
                 {teams.length > 4 && (
                     <button className='text-sm' onClick={handleExpandedToggle}>
-                        {expanded ? '숨기기' : '더보기'}
+                        {expanded
+                            ? <FontAwesomeIcon icon={faCircleUp} size="lg" />
+                            : <FontAwesomeIcon icon={faCircleDown} size="lg" />
+                        }
                     </button>
                 )}
             </div>
             <div className="grid grid-cols-3 gap-4 mt-5">
-                {products && (
+                {products ? (
                     products.map((product, i) => (
                         <ProductView product={product} key={i}></ProductView>
                     ))
-                )}
+                ) : <div className=''>
+                    <p>팀을 선택해주세요</p>
+                </div>
+                }
             </div>
         </div>
     );

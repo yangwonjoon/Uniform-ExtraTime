@@ -1,9 +1,9 @@
-import { Nav } from "../../components/common/Nav";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
 import { ProductView } from "@/components/product/ProductView";
+import homeimage from '../../assets/homeimage.jpg'
 
 export const Home = () => {
     const [products, setProducts] = useState<IProductFormData[]>([]);
@@ -28,7 +28,9 @@ export const Home = () => {
 
     return (
         <div>
-            <div className="container mx-auto">
+            <div className="w-full h-80 bg-no-repeat bg-cover" style={{ backgroundImage: `url(${homeimage})` }}></div>
+            <div className="container mx-auto my-5">
+                <h1 className="font-bold text-xl">All products</h1>
                 <div className="grid grid-cols-3 gap-4 mt-5">
                     {products && (
                         products.map((product, i) => (

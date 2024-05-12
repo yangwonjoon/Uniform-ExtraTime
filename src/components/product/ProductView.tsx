@@ -29,6 +29,7 @@ export const ProductView = ({ product }: IProductProps) => {
             }
         } else {
             alert('구매자 아이디로 로그인해주세요!');
+            navigate('/login')
         }
     }
     return (

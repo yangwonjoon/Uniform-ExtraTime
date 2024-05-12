@@ -14,7 +14,6 @@ interface IPaymentFormProps {
 }
 
 export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormProps) => {
-    const navigate = useNavigate()
     if (!window.IMP) return;
 
     const { IMP } = window;
@@ -57,11 +56,9 @@ export const handlePayment = ({ name, tel, email, product, user }: IPaymentFormP
                     console.log("Product updated to sold: ", product.productId);
                 }
                 alert("결제 성공: 주문이 완료되었습니다.");
-                navigate('/mypage')
             } catch (error) {
                 console.error("Order creation failed:", error);
             }
-
             alert("결제 성공");
         } else {
             console.error('결제 실패:', error_msg);

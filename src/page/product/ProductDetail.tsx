@@ -68,7 +68,6 @@ export const ProductDetail = () => {
         handlePayment(paymentForm);
     };
 
-
     return (
         <div className="flex w-full h-full pt-10">
             <div className="flex-1 py-6 relative">
@@ -88,34 +87,35 @@ export const ProductDetail = () => {
                     <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 text-2xl z-10 cursor-pointer"></CarouselNext>
                 </Carousel>
             </div>
-            <div className="flex-1 p-5 ml-5">
-                <h1 className="text-lg font-bold mb-5">{product?.productName}</h1>
-                <h2 className="text-lg font-bold">{product?.productPrice}원</h2>
+            <div className="flex-1 p-5 ml-5 flex flex-col justify-items-center">
+                <p>즉시 구매가</p>
+                <h2 className="text-2xl font-bold mb-10">{product?.productPrice}원</h2>
+
+                <h1 className="text-lg font-bold">{product?.productName}</h1>
                 <p className="mb-10">{product?.productDescription}</p>
                 {
                     !product?.isSell
-                        ? <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                            <button onClick={handleOpen} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">주문하기</button>
-                            <AlertDialogContent>
-                                <AlertDialogHeader className="mb-5">
-                                    <AlertDialogTitle>주문 정보</AlertDialogTitle>
-                                </AlertDialogHeader>
-                                <Input type="NAME" name="name" placeholder="NAME" className="w-full h-12 mb-4" onChange={inputChange} />
-                                <Input type="TEL" name="tel" placeholder="PHONE" className="w-full h-12 mb-4" onChange={inputChange} />
-                                <Input type="EMAIL" name="email" placeholder="EMAIL" className="w-full h-12 mb-4" onChange={inputChange} />
-                                <div className="text-center pt-5">
-                                    {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
-                                </div>
-                                <AlertDialogFooter>
-                                    <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
-                                    <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                        : <div>판매 완료!</div>
+                    && <><AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                        <button onClick={handleOpen} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">주문하기</button>
+                        <AlertDialogContent>
+                            <AlertDialogHeader className="mb-5">
+                                <AlertDialogTitle>주문 정보</AlertDialogTitle>
+                            </AlertDialogHeader>
+                            <Input type="NAME" name="name" placeholder="NAME" className="w-full h-12 mb-4" onChange={inputChange} />
+                            <Input type="TEL" name="tel" placeholder="PHONE" className="w-full h-12 mb-4" onChange={inputChange} />
+                            <Input type="EMAIL" name="email" placeholder="EMAIL" className="w-full h-12 mb-4" onChange={inputChange} />
+                            <div className="text-center pt-5">
+                                {msg && <p className="text-red-500 pb-5 font-bold">{msg}</p>}
+                            </div>
+                            <AlertDialogFooter>
+                                <button onClick={handleSubmit} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Order</button>
+                                <button onClick={handleClose} className="text-base font-medium py-2 px-4 border border-gray-300 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Cancel</button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                        <button className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 mt-3">장바구니</button>
+                    </>
                 }
-
-
             </div>
         </div>
     );

@@ -1,8 +1,8 @@
 import { cartStore } from "@/store/cartStore";
-import { Nav } from "../../components/common/Nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as bookmark } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as filledBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { userStore } from "@/store/userStore";
 import { doc, getDoc } from "firebase/firestore";
@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useNavigate } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
-// import { useLogout } from "@/hooks/logout/useLogout";
+
 
 export const Mypage = () => {
 
@@ -22,7 +22,6 @@ export const Mypage = () => {
     const [orderProducts, setOrderProducts] = useState<IProductFormData[]>([])
     const [sellOrderProducts, setSellOrderProducts] = useState<IProductFormData[]>([])
     const navigate = useNavigate()
-    // const { logout } = useLogout()
 
     const handleToggleCart = (productId: string | undefined, e: React.MouseEvent) => {
         e.stopPropagation();
@@ -114,6 +113,14 @@ export const Mypage = () => {
 
     return (
         <div>
+            <div className="w-full h-32 my-5 mt-10 flex flex-start items-center">
+                <FontAwesomeIcon icon={faUser} size="3x" className="basis-1/5" />
+                <div className="basis-4/5 font-bold">
+                    <h1 className="mb-4">{user.isSeller ? <div>Seller</div> : <div>Buyer</div>}</h1>
+                    <h1>Name: {user.name}</h1>
+                    <h1>Nickname: {user.nickname}</h1>
+                </div>
+            </div>
             {
                 user.isSeller
                     ?
@@ -163,7 +170,6 @@ export const Mypage = () => {
                                                         <div className="flex flex-col p-3">
                                                             <h1 className="text-sm font-bold mb-1">{product.productName}</h1>
                                                             <p className="text-sm font-semibold">{product.productPrice}원</p>
-                                                            {/* <p className="text-sm mb-2">{product.productDescription}</p> */}
                                                         </div>
                                                     </div>
                                                 </CardContent>

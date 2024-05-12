@@ -5,7 +5,6 @@ import { Login } from "./page/login/Login";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./page/product/Home";
 import { Team } from "./page/product/Team";
-import { Logo } from "./components/common/Logo";
 import { Sell } from "./page/sell/Sell";
 import { ProductDetail } from "./page/product/ProductDetail";
 import { Mypage } from "./page/mypage/MyPage";
