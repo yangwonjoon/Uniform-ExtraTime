@@ -15,7 +15,7 @@ interface ITeamModal {
     setProductFormData: Dispatch<SetStateAction<IProductFormData>>;
 }
 
-export const TeamModal = ({ productFormData, setProductFormData }: ITeamModal) => {
+export const SellerAddTeam = ({ productFormData, setProductFormData }: ITeamModal) => {
     const [team, setTeam] = useState(0)
     const [msg, setMsg] = useState('')
 
@@ -47,7 +47,7 @@ export const TeamModal = ({ productFormData, setProductFormData }: ITeamModal) =
                 <DialogFooter className="flex sm:justify-center items-center w-full">
                     {msg && <>
                         <DialogDescription>
-                            {msg}를 선택하셨습니다
+                            {msg}
                         </DialogDescription>
                     </>}
                 </DialogFooter>

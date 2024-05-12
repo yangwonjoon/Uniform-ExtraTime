@@ -14,8 +14,6 @@ export const useGetProductByEmail = (email: string) => {
 
             if (!email) return;
             //fireStore의 products db 담음
-
-
             const productsRef = collection(db, "products");
             //products db 중 user.email(현재 로그인한 유저 이메일) 선택 쿼리
             const q = query(productsRef, where("userEmail", "==", email), orderBy("createdAt", "desc"));
@@ -32,7 +30,6 @@ export const useGetProductByEmail = (email: string) => {
 
                 setProducts(fetchedProducts);
             } catch (error) {
-                console.error('Failed to fetch products:', error);
                 console.log('useReadProduct 에러')
             }
         };

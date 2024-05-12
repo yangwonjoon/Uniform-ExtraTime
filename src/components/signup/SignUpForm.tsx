@@ -7,7 +7,7 @@ export const SignUpForm = ({ isSeller, name }: ISignUpFormProps) => {
     return (
         <div className="pt-24 pl-16 pr-16">
             <div>
-                <h1 className="text-2xl pl-3">{name} 회원가입</h1>
+                <h1 className="text-2xl pl-3">{name} SignUp</h1>
                 <hr className="border-t-2 border-black my-4"></hr>
             </div>
             <div className="p-10 pl-6 pr-6">
@@ -22,7 +22,7 @@ export const SignUpForm = ({ isSeller, name }: ISignUpFormProps) => {
 
                 <div className="text-center pt-5">
                     {msg && <p className="text-red-500 pb-5">{msg}</p>}
-                    <button className="bg-main w-32 h-12 rounded-md text-white" onClick={signUp}>제출하기</button>
+                    <button className="bg-main w-32 h-12 rounded-md text-white" onClick={signUp}>회원가입</button>
                 </div>
             </div>
         </div>

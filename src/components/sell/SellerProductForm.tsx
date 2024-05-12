@@ -3,9 +3,9 @@ import { Nav } from "../common/Nav";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { InputImages } from "./InputImages";
+import { SellerAddImages } from "./SellerAddImages";
 import { IProductFormData } from "@/types/types";
-import { TeamModal } from "./TeamModal";
+import { SellerAddTeam } from "./SellerAddTeam";
 
 interface IProductFormProps {
     productFormData: IProductFormData;
@@ -18,10 +18,9 @@ interface IProductFormProps {
     msg: string;
 }
 
-export const ProductForm = ({ productFormData, setProductFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit, msg }: IProductFormProps) => {
+export const ProductUploadForm = ({ productFormData, setProductFormData, inputChange, showImages, handleAddImages, handleDeleteImage, handleSubmit, msg }: IProductFormProps) => {
     return (
         <>
-            <Nav />
             <div className="pt-10 flex flex-col items-center min-h-screen">
                 <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
                     <Label htmlFor="name" className="font-bold">상품명</Label>
@@ -32,14 +31,14 @@ export const ProductForm = ({ productFormData, setProductFormData, inputChange, 
                     <Input type="text" id="price" placeholder="상품가격을 입력해주세요" name="productPrice" value={productFormData.productPrice} onChange={inputChange} />
                 </div>
                 <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
-                    <TeamModal setProductFormData={setProductFormData} productFormData={productFormData}></TeamModal>
+                    <SellerAddTeam setProductFormData={setProductFormData} productFormData={productFormData}></SellerAddTeam>
                 </div>
                 <div className="grid w-2/3 max-w-sm items-center gap-1.5 mb-5">
                     <Label htmlFor="explain" className="font-bold">상품설명</Label>
                     <Textarea placeholder="상품설명을 입력해주세요" id="explain" name="productDescription" value={productFormData.productDescription} onChange={inputChange} />
                 </div>
 
-                <InputImages showImages={showImages} handleAddImages={handleAddImages} handleDeleteImage={handleDeleteImage}></InputImages>
+                <SellerAddImages showImages={showImages} handleAddImages={handleAddImages} handleDeleteImage={handleDeleteImage}></SellerAddImages>
 
                 {msg && <div className="text-red-500 mt-5 text-sm font-bold">{msg}</div>}
                 <div className="text-center">

@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Nav } from "@/components/common/Nav";
-import { useGetProductByEmail } from "@/hooks/product/useGetProductByEmail";
+import { useGetProductByEmail } from "@/hooks/sell/useGetProductByEmail";
 import { userStore } from "@/store/userStore";
-import { ProductView } from "@/components/product/ProductView";
+import { SellerProductView } from "@/components/sell/SellerProductView";
 
 export const Sell = () => {
 
@@ -11,14 +10,17 @@ export const Sell = () => {
     const products = useGetProductByEmail(user.email);
 
     return (
-        <>
-            <Nav />
-            <button onClick={() => navigate('/sell/createProduct')}>상품등록</button>
+        <div>
+            <div className="text-right">
+                <button onClick={() => navigate('/sell/createProduct')} className="text-base font-medium py-2 px-4 border border-gray text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 mt-3">상품등록</button>
+            </div>
+            <h1 className="font-bold text-xl my-5">판매중인 상품</h1>
+            <hr></hr>
             {products && (
                 products.map((product, i) => (
-                    <ProductView product={product} i={i} key={i}></ProductView>
+                    <SellerProductView product={product} key={i}></SellerProductView>
                 )))
             }
-        </>
+        </div>
     );
 };
