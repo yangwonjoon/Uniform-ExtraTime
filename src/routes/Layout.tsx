@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom"
 export const Layout = () => {
 
     return (
-        <div className="container mx-auto my-0 w-1/2 h-screen">
+        <div className="container mx-auto my-0 md:w-1/2 w-full h-screen">
             <Logo></Logo>
             <Nav></Nav>
             <Outlet></Outlet>
