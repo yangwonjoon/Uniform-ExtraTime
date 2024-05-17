@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useGetProductFormData } from "@/hooks/sell/useGetProductById";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { handlePayment } from "@/api/payment/handlePayment";
@@ -13,34 +12,43 @@ import { useQueryClient } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { IProductFormData } from "@/types/types";
+import { Loading } from "@/components/common/Loading";
+import { Error } from "@/components/common/Error";
 
 const fetchProductData = async (productId: string) => {
     const docRef = doc(db, "products", productId);
     const docSnap = await getDoc(docRef);
-
     if (docSnap.exists()) {
         return {
             productId: docSnap.id,
             ...docSnap.data() as IProductFormData
         };
     } else {
-        throw new Error("Product not found");
+        console.log('error')
     }
 };
 
 export const ProductDetail = () => {
     const { user } = userStore()
-    // const { productId } = useParams();
-    // const product = useGetProductFormData(productId as string);
-
     const { productId } = useParams();
     const queryClient = useQueryClient();
     const { data: product, isLoading, error } = useQuery({
         queryKey: ['product', productId],
         queryFn: () => fetchProductData(productId as string),
-        initialData: () => queryClient.getQueryData(['product', productId]),
+        initialData: () => {
+            const cachedData = queryClient.getQueryData(['product', productId]);
+            console.log('Initial data from cache:', cachedData);
+            return cachedData as IProductFormData || undefined;
+        },
         staleTime: 5000
     });
+
+    useEffect(() => {
+        console.log('ProductDetail useEffect triggered');
+        if (product) {
+            console.log('Fetched product data:', product); // Fetch된 데이터를 로그에 출력
+        }
+    }, [product]);
 
     const [msg, setMsg] = useState('')
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -51,15 +59,6 @@ export const ProductDetail = () => {
         product: product,
         user: user
     })
-
-    useEffect(() => {
-        if (product) {
-            setPaymentForm(prevForm => ({
-                ...prevForm,
-                product: product
-            }));
-        }
-    }, [product]);
 
     const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentForm({ ...paymentForm, [e.target.name]: e.target.value })
@@ -97,8 +96,8 @@ export const ProductDetail = () => {
         handlePayment(paymentForm);
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error fetching product details.</div>;
+    if (isLoading) return <Loading></Loading>;
+    if (error) return <Error></Error>;
 
     return (
         <div className="flex w-full h-full pt-10">
@@ -152,3 +151,4 @@ export const ProductDetail = () => {
         </div>
     );
 };
+

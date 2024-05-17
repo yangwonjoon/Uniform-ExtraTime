@@ -14,6 +14,7 @@ interface IProductProps {
 }
 
 const fetchProductData = async (productId: string) => {
+
     const docRef = doc(db, "products", productId);
     const docSnap = await getDoc(docRef);
 
@@ -50,14 +51,14 @@ export const ProductView = ({ product }: IProductProps) => {
             navigate('/login')
         }
     }
-    // QueryClient 인스턴스 가져오기
 
     const prefetchProduct = async () => {
         await queryClient.prefetchQuery({
             queryKey: ['product', product.productId],
             queryFn: () => fetchProductData(product.productId as string),
-            staleTime: 5000
+            staleTime: 10000
         });
+
     };
 
     const handleNavigate = () => {
