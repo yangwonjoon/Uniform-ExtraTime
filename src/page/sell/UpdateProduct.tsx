@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useProductForm } from "@/hooks/sell/useProductForm";
-import { useGetProductFormData } from "@/hooks/sell/useGetProductById";
+import { useGetProductFormData } from "@/hooks/sell/useGetProductFormData";
 import { useUploadProduct } from "@/hooks/sell/useUploadProduct";
 import { ProductUploadForm } from "@/components/sell/SellerProductForm";
 

@@ -48,15 +48,14 @@ export const Mypage = () => {
             for (const productId of cart) {
                 const docRef = doc(db, "products", productId);
                 const docSnap = await getDoc(docRef);
-                console.log(docSnap.data())
+
                 if (docSnap.exists() && !docSnap.data().isSell) {
                     productArr.push({ ...docSnap.data(), productId: docSnap.id } as IProductFormData);
                 } else {
-                    console.log("cart product 정보 없음");
+                    // console.log("cart product 정보 없음");
                 }
             }
             setCartProducts(productArr)
-
         }
         productFromCart()
     }, [cart])
@@ -104,7 +103,7 @@ export const Mypage = () => {
                     productDetails.push({ ...productSnap.data(), productId: id } as IProductFormData);
                 }
             }
-            console.log(productDetails)
+            
             setSellOrderProducts(productDetails);
         }
         productFromSellerId()
