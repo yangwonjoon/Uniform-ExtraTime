@@ -75,3 +75,4 @@ yarn-error.log*
 tsconfig.tsbuildinfo
 
 .env
+.vercel

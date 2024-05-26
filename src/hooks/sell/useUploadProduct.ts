@@ -14,7 +14,7 @@ interface Props {
     setProductFormData: Dispatch<SetStateAction<IProductFormData>>;
 }
 
-export const useUploadProduct = ({ productFormData, validateProductForm, setMsg, setProductFormData }: Props) => {
+export const useUploadProduct = ({ productFormData, validateProductForm, setMsg }: Props) => {
     const navigate = useNavigate();
     const user = userStore(state => state.user);
     const [showImages, setShowImages] = useState<string[]>(productFormData.productImages || []);
@@ -45,7 +45,6 @@ export const useUploadProduct = ({ productFormData, validateProductForm, setMsg,
     // 이미지 삭제
     const handleDeleteImage = async (index: number) => {
         const imageUrl = showImages[index];
-        const fileName = fileNames[index];
         const isBlob = imageUrl.startsWith('blob:');
         if (isBlob) {
             URL.revokeObjectURL(imageUrl);
