@@ -3,7 +3,6 @@ import { db } from "@/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { IProductFormData } from '@/types/types';
 import { User } from '@/store/types';
-import { useNavigate } from 'react-router-dom';
 
 interface IPaymentFormProps {
     name: string;
