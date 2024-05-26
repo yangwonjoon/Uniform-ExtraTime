@@ -13,7 +13,7 @@ export const Logo = () => {
         <div className="flex justify-between items-center w-full h-20 px-3 my-3 relative">
             <div className="flex-1"></div>
             <div className="flex-2 flex justify-center items-center">
-                <p className="my-auto cursor-pointer font-bold text-2xl align-center" onClick={() => navigate('/')} >actiontest</p>
+                <p className="my-auto cursor-pointer font-bold text-2xl align-center" onClick={() => navigate('/')} >Uniform-ExtraTime</p>
             </div>
             <div className="flex-1 flex justify-end items-center cursor-pointer relative">
                 {user.email &&
