@@ -1,7 +1,5 @@
-import { SignUpForm } from "@/components/signup/SignUpForm";
+import SignUpForm from '@/components/signup/SignUpForm'
 
-export const SellerSignUp = () => {
-    return (
-        <SignUpForm isSeller={true} name={'Seller'}></SignUpForm>
-    )
-}
+const SellerSignUp = () => <SignUpForm isSeller name="Seller" />
+
+export default SellerSignUp

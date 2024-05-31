@@ -1,7 +1,7 @@
-export const Error = ()=>{
-    return(
-        <div>
-            <p>에러</p>
-        </div>
-    )
-}
+const Error = () => (
+  <div>
+    <p>에러</p>
+  </div>
+)
+
+export default Error
