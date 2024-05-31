@@ -1,12 +1,11 @@
-import { Logo } from "@/components/common/Logo"
-import { Outlet } from "react-router-dom"
+import Logo from '@/components/common/Logo'
+import { Outlet } from 'react-router-dom'
 
-export const AuthLayout = () => {
+const AuthLayout = () => (
+  <div className="container mx-auto my-0 w-1/2 h-screen">
+    <Logo />
+    <Outlet />
+  </div>
+)
 
-    return (
-        <div className="container mx-auto my-0 w-1/2 h-screen">
-            <Logo></Logo>
-            <Outlet></Outlet>
-        </div>
-    )
-}
+export default AuthLayout
