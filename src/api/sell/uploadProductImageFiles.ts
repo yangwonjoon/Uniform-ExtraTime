@@ -18,7 +18,7 @@ const uploadProductImageFiles = async (
     const imageUrl = await getDownloadURL(storageRef)
     return `${imageUrl}?timestamp=${new Date().getTime()}`
   } catch (error) {
-    console.log('uploadProductImageFiles 에러')
+    return console.log('uploadProductImageFiles 에러')
   }
 }
 

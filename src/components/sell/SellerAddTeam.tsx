@@ -15,7 +15,8 @@ import teams from '@/constants/team'
 
 interface ITeams {
   id: number
-  logo: string
+  logoSvg: string
+  logoWebp: string
   name: string
 }
 
@@ -50,12 +51,14 @@ const SellerAddTeam = ({ productFormData, setProductFormData }: ITeamModal) => {
         <div className="grid grid-cols-4 gap-4 py-4">
           {teams.map((team) => (
             <div key={team.id} className="w-full">
-              <img
-                src={team.logo}
-                alt={team.name}
-                className="w-full h-auto object-contain"
-                onClick={() => handleSelectTeam(team)}
-              />
+              <picture onClick={() => handleSelectTeam(team)}>
+                <source srcSet={team.logoWebp} type="image/webp" />
+                <img
+                  src={team.logoSvg}
+                  alt={team.name}
+                  className="w-full h-auto object-contain"
+                />
+              </picture>
             </div>
           ))}
         </div>

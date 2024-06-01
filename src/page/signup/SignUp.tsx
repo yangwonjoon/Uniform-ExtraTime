@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-import customer from '../../assets/customer.svg'
-import seller from '../../assets/seller.svg'
+import customerWebp from '../../assets/customer.webp'
+import customerSvg from '../../assets/customer.svg'
+import sellerWebp from '../../assets/seller.webp'
+import sellerSvg from '../../assets/seller.svg'
 
 const SignUp = () => {
   const navigate = useNavigate()
@@ -8,7 +10,10 @@ const SignUp = () => {
     <div className="mt-32 flex justify-center items-center">
       <div className="w-1/2 h-1/2">
         <div className="w-full h-4/5 bg-customer">
-          <img alt="customer img" src={customer} />
+          <picture>
+            <source srcSet={customerWebp} type="image/webp" />
+            <img alt="customer img" src={customerSvg} />
+          </picture>
         </div>
         <div className="w-full h-1/5 text-center">
           <button
@@ -22,7 +27,10 @@ const SignUp = () => {
       </div>
       <div className="w-1/2 h-1/2">
         <div className="w-full h-4/5">
-          <img alt="seller img" src={seller} />
+          <picture>
+            <source srcSet={sellerWebp} type="image/webp" />
+            <img alt="seller img" src={sellerSvg} />
+          </picture>
         </div>
         <div className="w-full h-1/5 text-center">
           <button
