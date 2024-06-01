@@ -3,7 +3,8 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "types": [
-      "iamport-typings"
+      "iamport-typings",
+      "react-lazyload"
     ],
     "lib": [
       "ES2020",
@@ -18,7 +19,6 @@
     },
     "module": "ESNext",
     "skipLibCheck": true,
-    
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
