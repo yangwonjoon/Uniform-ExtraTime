@@ -10,7 +10,6 @@ import homeimageWebp from '../../assets/homeimage.webp';
 import homeimagePng from '../../assets/homeimage.png';
 
 const homePageProducts = async () => {
-  
   const productsRef = collection(db, 'products');
   const q = query(
     productsRef,
@@ -44,10 +43,7 @@ const Home = () => {
     <div>
       <div className="w-full h-80 bg-no-repeat bg-cover">
         <picture>
-          <source            
-            srcSet={homeimageWebp}
-            type="image/webp"
-          />
+          <source srcSet={homeimageWebp} type="image/webp" />
           <img
             src={homeimagePng}
             alt="Home"
