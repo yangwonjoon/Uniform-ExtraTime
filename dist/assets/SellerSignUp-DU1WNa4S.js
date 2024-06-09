@@ -1,0 +1,1 @@
+import{j as r}from"./index-0d2ZcZCT.js";import{S as e}from"./SignUpForm-DQSHLr_T.js";import"./validation-CMFxILfB.js";import"./utils-CHtjtCvc.js";const p=()=>r.jsx(e,{isSeller:!0,name:"Seller"});export{p as default};
