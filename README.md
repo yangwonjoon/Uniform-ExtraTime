@@ -27,16 +27,28 @@
 ## Features
 
 ### 구매자, 판매자 회원 구분 및 관리
-
 - **Firebase Authentication**을 이용하여 구매자와 판매자의 회원 정보를 구분하고 관리
   - **구매자:** 장바구니, 결제 연동
   - **판매자:** Firestore와 Firebase Storage를 사용하여 상품 정보 및 파일을 저장하고, 상품을 등록, 수정, 삭제할 수 있는 기능 구현
+    
+<div align="center">
+  
+ ![조회](https://github.com/yangwonjoon/Uniform-ExtraTime/assets/102780846/e80f49ca-f16e-4664-9081-0d6fab79c6f3)
+
+  
+</div>
 
 ### 상품 조회 및 결제 시스템 구현
 
 - **React Query**를 사용하여 상품 목록을 캐싱하고 반복적인 서버 요청을 제거하여 사용자 경험을 향상
 - 마우스 오버 시 데이터 프리패칭으로 상품 상세 페이지를 미리 로드하여 사용자에게 원활한 탐색 경험 제공
 - **PortOne SDK**를 사용하여 가상 결제 시스템을 구현, 안전하고 편리한 결제 기능 제공
+
+<div align="center">
+  
+![결제](https://github.com/yangwonjoon/Uniform-ExtraTime/assets/102780846/c6894418-6f12-4ee0-8ff8-50ee05ad87cd)
+  
+</div>
 
 ### 성능 최적화
 
