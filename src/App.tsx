@@ -48,7 +48,7 @@ const App = () => {
           </Route>
         </Routes>
       </Suspense>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
