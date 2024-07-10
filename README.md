@@ -46,7 +46,7 @@
 
 <div align="center">
   
-![결제](https://github.com/yangwonjoon/Uniform-ExtraTime/assets/102780846/c6894418-6f12-4ee0-8ff8-50ee05ad87cd)
+![결제](https://github.com/yangwonjoon/Uniform-ExtraTime/assets/102780846/4d3eee2e-c4d9-446c-b5fa-17fa1f085f8a)
   
 </div>
 
